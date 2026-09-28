@@ -2,34 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ASTRA — AI FACE SCAN</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASTRA — Face Scan</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
     min-height:100vh;
-    color:#fff;
-    font-family:Arial,sans-serif;
-    background:
-      radial-gradient(circle at 50% 40%,#172968 0,#080d25 35%,#02030a 75%);
     overflow-x:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
+    background:
+        radial-gradient(circle at 50% 40%,#172968 0%,#080d25 35%,#02030a 80%);
 }
 
 #stars{
     position:fixed;
     inset:0;
-    z-index:-2;
+    z-index:-3;
 }
 
 .star{
     position:absolute;
     width:2px;
     height:2px;
-    background:#fff;
     border-radius:50%;
-    animation:twinkle 3s infinite;
+    background:white;
+    animation:twinkle 3s infinite ease-in-out;
 }
 
 @keyframes twinkle{
@@ -43,12 +47,27 @@ body{
     height:600px;
     border-radius:50%;
     filter:blur(120px);
-    opacity:.18;
-    z-index:-1;
+    opacity:.2;
+    z-index:-2;
 }
 
-.n1{background:#513cff;left:-300px;top:-250px}
-.n2{background:#008cff;right:-300px;bottom:-250px}
+.n1{
+    background:#553dff;
+    left:-300px;
+    top:-250px;
+}
+
+.n2{
+    background:#008cff;
+    right:-300px;
+    bottom:-300px;
+}
+
+.n3{
+    background:#cc35ff;
+    left:40%;
+    top:35%;
+}
 
 .container{
     width:min(1000px,94%);
@@ -58,42 +77,51 @@ body{
 
 .logo{
     text-align:center;
-    color:#8d9cff;
-    letter-spacing:7px;
+    color:#93a2ff;
     font-size:13px;
+    letter-spacing:7px;
 }
 
 h1{
     text-align:center;
     margin-top:10px;
-    font-size:clamp(38px,8vw,78px);
-    letter-spacing:6px;
-    background:linear-gradient(90deg,#fff,#8095ff,#d99aff,#fff);
+    font-size:clamp(40px,8vw,78px);
+    letter-spacing:7px;
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #8298ff,
+        #d795ff,
+        #fff
+    );
     -webkit-background-clip:text;
     color:transparent;
+    text-shadow:0 0 45px #7183ff33;
 }
 
-.sub{
+.subtitle{
     text-align:center;
-    color:#7782aa;
-    letter-spacing:3px;
     margin-top:10px;
+    color:#7884ac;
+    letter-spacing:4px;
 }
 
 .panel{
     margin-top:40px;
     padding:25px;
     border-radius:30px;
-    border:1px solid #ffffff16;
+    border:1px solid #ffffff17;
     background:#ffffff08;
     backdrop-filter:blur(25px);
-    box-shadow:0 30px 100px #0008;
+    box-shadow:
+        0 30px 100px #0009,
+        inset 0 1px #ffffff12;
 }
 
 .upload{
-    min-height:230px;
-    border:1px dashed #7586ff88;
-    border-radius:24px;
+    min-height:250px;
+    border:1px dashed #7d8dff99;
+    border-radius:25px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -103,32 +131,37 @@ h1{
 }
 
 .upload:hover{
-    background:#ffffff08;
-    border-color:#aab4ff;
+    background:#ffffff09;
+    border-color:#abb6ff;
     transform:translateY(-3px);
 }
 
 .uploadIcon{
-    font-size:55px;
+    font-size:58px;
     margin-bottom:15px;
-    text-shadow:0 0 30px #7687ff;
+    text-shadow:
+        0 0 20px #768bff,
+        0 0 50px #768bff;
 }
 
 .uploadTitle{
-    letter-spacing:5px;
     font-size:20px;
+    letter-spacing:5px;
 }
 
 .uploadSmall{
-    color:#737da1;
     margin-top:10px;
+    color:#727da1;
 }
 
-input{display:none}
+#file{
+    display:none;
+}
 
 .photoBox{
     display:none;
     position:relative;
+    width:100%;
     justify-content:center;
     align-items:center;
     overflow:hidden;
@@ -138,26 +171,29 @@ input{display:none}
 
 .photoBox.show{
     display:flex;
-    animation:photoIn .8s ease;
+    animation:photoIn .8s cubic-bezier(.2,.8,.2,1);
 }
 
 @keyframes photoIn{
     from{
         opacity:0;
-        transform:scale(.85);
-        filter:blur(15px)
+        transform:scale(.85) translateY(30px);
+        filter:blur(15px);
     }
+
     to{
         opacity:1;
         transform:scale(1);
-        filter:blur(0)
+        filter:blur(0);
     }
 }
 
 #photo{
+    display:block;
     max-width:100%;
     max-height:650px;
-    display:block;
+    width:auto;
+    height:auto;
 }
 
 #canvas{
@@ -171,11 +207,14 @@ input{display:none}
 .scanLine{
     position:absolute;
     left:0;
+    top:0;
     width:100%;
     height:3px;
-    background:#83a0ff;
-    box-shadow:0 0 15px #7190ff,0 0 40px #7184ff;
     display:none;
+    background:#82a0ff;
+    box-shadow:
+        0 0 15px #82a0ff,
+        0 0 45px #657aff;
 }
 
 .scanning .scanLine{
@@ -184,134 +223,203 @@ input{display:none}
 }
 
 @keyframes scan{
-    from{top:0}
-    to{top:100%}
+    from{
+        top:0;
+    }
+
+    to{
+        top:100%;
+    }
 }
 
 .rate{
+    display:none;
     width:100%;
-    margin-top:20px;
-    padding:19px;
+    margin-top:22px;
+    padding:20px;
     border:0;
-    border-radius:17px;
-    color:#fff;
+    border-radius:18px;
+    color:white;
+    background:linear-gradient(
+        100deg,
+        #526dff,
+        #a05eff
+    );
+    box-shadow:0 0 35px #6878ff55;
+    font-size:16px;
     font-weight:bold;
     letter-spacing:5px;
-    background:linear-gradient(100deg,#536cff,#a15eff);
     cursor:pointer;
-    display:none;
-    box-shadow:0 0 35px #6d76ff44;
+    transition:.3s;
 }
 
 .rate.show{
     display:block;
-    animation:up .6s ease;
+    animation:buttonIn .7s ease;
 }
 
 .rate:hover{
-    transform:translateY(-2px);
+    transform:translateY(-3px);
+    box-shadow:0 0 50px #7885ff88;
 }
 
-@keyframes up{
-    from{opacity:0;transform:translateY(20px)}
-    to{opacity:1;transform:translateY(0)}
+@keyframes buttonIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .status{
+    min-height:20px;
+    margin-top:18px;
     text-align:center;
-    margin-top:20px;
-    color:#7e8cb7;
+    color:#8190bc;
     font-size:12px;
     letter-spacing:3px;
-    min-height:18px;
 }
 
 .results{
     display:none;
-    margin-top:30px;
+    margin-top:32px;
 }
 
 .results.show{
     display:block;
-    animation:up .8s ease;
+    animation:resultsIn .8s ease;
+}
+
+@keyframes resultsIn{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .complete{
     text-align:center;
-    color:#7fa5ff;
+    color:#80a3ff;
     letter-spacing:5px;
     font-size:13px;
-    margin-bottom:25px;
+    margin-bottom:22px;
 }
 
-.mainScore{
-    text-align:center;
+.mainResult{
     padding:25px;
-    border:1px solid #ffffff12;
-    background:#ffffff07;
+    text-align:center;
     border-radius:22px;
+    border:1px solid #ffffff13;
+    background:#ffffff07;
     margin-bottom:15px;
 }
 
-.scoreNumber{
-    font-size:65px;
+.bigNumber{
+    font-size:64px;
     font-weight:800;
-    background:linear-gradient(90deg,#7b9aff,#d88cff);
+    background:linear-gradient(
+        90deg,
+        #7c9cff,
+        #d28dff
+    );
     -webkit-background-clip:text;
     color:transparent;
 }
 
-.scoreLabel{
-    color:#7e89ad;
-    letter-spacing:4px;
+.bigLabel{
+    color:#7d88aa;
     font-size:11px;
+    letter-spacing:4px;
 }
 
 .grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:14px;
+    gap:15px;
 }
 
 .card{
-    padding:21px;
-    border-radius:19px;
+    position:relative;
+    overflow:hidden;
+    padding:22px;
+    border-radius:20px;
     background:#ffffff07;
     border:1px solid #ffffff12;
 }
 
-.name{
-    color:#7d89b2;
+.card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:3px;
+    height:100%;
+    background:linear-gradient(
+        #7288ff,
+        #ca7cff
+    );
+    box-shadow:0 0 15px #7485ff;
+}
+
+.cardName{
+    color:#7c88af;
     font-size:11px;
     letter-spacing:4px;
 }
 
-.value{
-    font-size:21px;
+.cardValue{
     margin-top:9px;
+    font-size:21px;
 }
 
-.desc{
-    color:#6f7897;
+.cardDescription{
+    margin-top:8px;
+    color:#707b9b;
     font-size:12px;
-    margin-top:7px;
     line-height:1.5;
 }
 
 .reset{
-    margin-top:20px;
     width:100%;
-    padding:15px;
-    background:#ffffff08;
-    color:#9ba7ca;
+    margin-top:20px;
+    padding:16px;
     border:1px solid #ffffff15;
     border-radius:15px;
+    background:#ffffff08;
+    color:#9da8ca;
     cursor:pointer;
 }
 
+.footer{
+    text-align:center;
+    margin-top:30px;
+    color:#454e70;
+    font-size:10px;
+    letter-spacing:3px;
+}
+
 @media(max-width:600px){
-    .panel{padding:16px}
-    .grid{grid-template-columns:1fr}
+
+    .panel{
+        padding:16px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    h1{
+        letter-spacing:4px;
+    }
 }
 </style>
 </head>
@@ -319,32 +427,56 @@ input{display:none}
 <body>
 
 <div id="stars"></div>
+
 <div class="nebula n1"></div>
 <div class="nebula n2"></div>
+<div class="nebula n3"></div>
 
 <div class="container">
 
-<div class="logo">ASTRA SYSTEMS / VISION ENGINE</div>
+<div class="logo">
+ASTRA SYSTEMS / VISION ENGINE
+</div>
 
 <h1>FACE SCAN</h1>
 
-<div class="sub">AI LANDMARK ANALYSIS</div>
+<div class="subtitle">
+AI LANDMARK ANALYSIS
+</div>
 
 <div class="panel">
+
+<!-- UPLOAD -->
 
 <label class="upload" id="upload">
 
     <div class="uploadIcon">◉</div>
-    <div class="uploadTitle">UPLOAD PHOTO</div>
-    <div class="uploadSmall">Choose a face photo</div>
 
-    <input id="file" type="file" accept="image/*">
+    <div class="uploadTitle">
+        UPLOAD PHOTO
+    </div>
+
+    <div class="uploadSmall">
+        Choose a face photo
+    </div>
+
+    <input
+        id="file"
+        type="file"
+        accept="image/*"
+    >
 
 </label>
 
+
+<!-- PHOTO -->
+
 <div class="photoBox" id="photoBox">
 
-    <img id="photo">
+    <img
+        id="photo"
+        alt="Uploaded photo"
+    >
 
     <canvas id="canvas"></canvas>
 
@@ -352,313 +484,550 @@ input{display:none}
 
 </div>
 
-<button class="rate" id="rate">
-START FACE ANALYSIS
+
+<!-- ANALYSIS BUTTON -->
+
+<button
+    class="rate"
+    id="rate"
+>
+    START FACE ANALYSIS
 </button>
 
-<div class="status" id="status"></div>
 
-<div class="results" id="results">
+<div
+    class="status"
+    id="status"
+>
+    AI INITIALIZING...
+</div>
+
+
+<!-- RESULTS -->
+
+<div
+    class="results"
+    id="results"
+>
 
     <div class="complete">
         ANALYSIS COMPLETE
     </div>
 
-    <div class="mainScore">
 
-        <div class="scoreNumber" id="score">--</div>
+    <div class="mainResult">
 
-        <div class="scoreLabel">
+        <div
+            class="bigNumber"
+            id="score"
+        >
+            --
+        </div>
+
+        <div class="bigLabel">
             ANALYSIS CONFIDENCE
         </div>
 
     </div>
 
+
     <div class="grid">
 
         <div class="card">
-            <div class="name">FACE</div>
-            <div class="value" id="faceShape">--</div>
-            <div class="desc">
-                Estimated geometric face outline.
+
+            <div class="cardName">
+                FACE
             </div>
+
+            <div
+                class="cardValue"
+                id="faceShape"
+            >
+                --
+            </div>
+
+            <div class="cardDescription">
+                Approximate geometric outline detected from facial landmarks.
+            </div>
+
         </div>
 
+
         <div class="card">
-            <div class="name">SYMMETRY</div>
-            <div class="value" id="symmetry">--</div>
-            <div class="desc">
+
+            <div class="cardName">
+                SYMMETRY
+            </div>
+
+            <div
+                class="cardValue"
+                id="symmetry"
+            >
+                --
+            </div>
+
+            <div class="cardDescription">
                 Approximate left/right landmark symmetry.
             </div>
+
         </div>
 
+
         <div class="card">
-            <div class="name">EYES</div>
-            <div class="value" id="eyes">DETECTED</div>
-            <div class="desc">
-                Eye landmarks detected by the vision model.
+
+            <div class="cardName">
+                EYES
             </div>
-        </div>
 
-        <div class="card">
-            <div class="name">LIPS</div>
-            <div class="value" id="lips">DETECTED</div>
-            <div class="desc">
-                Lip contour landmarks detected.
+            <div
+                class="cardValue"
+                id="eyes"
+            >
+                --
             </div>
-        </div>
 
-        <div class="card">
-            <div class="name">BROWS</div>
-            <div class="value">DETECTED</div>
-            <div class="desc">
-                Facial landmark region identified.
+            <div class="cardDescription">
+                Real eye landmarks detected by the vision model.
             </div>
+
         </div>
 
+
         <div class="card">
-            <div class="name">LANDMARKS</div>
-            <div class="value" id="landmarks">--</div>
-            <div class="desc">
+
+            <div class="cardName">
+                LIPS
+            </div>
+
+            <div
+                class="cardValue"
+                id="lips"
+            >
+                --
+            </div>
+
+            <div class="cardDescription">
+                Real lip contour landmarks detected.
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="cardName">
+                BROWS
+            </div>
+
+            <div
+                class="cardValue"
+                id="brows"
+            >
+                --
+            </div>
+
+            <div class="cardDescription">
+                Eyebrow landmark regions detected.
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="cardName">
+                LANDMARKS
+            </div>
+
+            <div
+                class="cardValue"
+                id="landmarks"
+            >
+                --
+            </div>
+
+            <div class="cardDescription">
                 Number of facial points returned by the model.
             </div>
+
         </div>
 
     </div>
 
-    <button class="reset" id="reset">
+
+    <button
+        class="reset"
+        id="reset"
+    >
         ANALYZE ANOTHER PHOTO
     </button>
 
 </div>
 
 </div>
+
+<div class="footer">
+ASTRA • LOCAL IMAGE ANALYSIS
 </div>
+
+</div>
+
 
 <script type="module">
 
-/* --------------------------------
-   MEDIAPIPE
--------------------------------- */
+/*
+==================================================
+MEDIAPIPE
+==================================================
+*/
 
 import {
     FaceLandmarker,
     FilesetResolver,
     DrawingUtils
-} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22";
+}
+from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22";
 
 
-/* --------------------------------
-   STARS
--------------------------------- */
+/*
+==================================================
+ELEMENTS
+==================================================
+*/
 
-const stars = document.getElementById("stars");
+const file =
+    document.getElementById("file");
+
+const upload =
+    document.getElementById("upload");
+
+const photo =
+    document.getElementById("photo");
+
+const photoBox =
+    document.getElementById("photoBox");
+
+const canvas =
+    document.getElementById("canvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+const rate =
+    document.getElementById("rate");
+
+const status =
+    document.getElementById("status");
+
+const results =
+    document.getElementById("results");
+
+
+let faceLandmarker = null;
+
+
+/*
+==================================================
+STARS
+==================================================
+*/
+
+const stars =
+    document.getElementById("stars");
 
 for(let i=0;i<180;i++){
 
-    const s=document.createElement("div");
+    const star =
+        document.createElement("div");
 
-    s.className="star";
+    star.className = "star";
 
-    s.style.left=Math.random()*100+"%";
-    s.style.top=Math.random()*100+"%";
-    s.style.animationDelay=Math.random()*4+"s";
+    star.style.left =
+        Math.random()*100+"%";
 
-    stars.appendChild(s);
+    star.style.top =
+        Math.random()*100+"%";
+
+    star.style.animationDelay =
+        Math.random()*4+"s";
+
+    stars.appendChild(star);
 }
 
 
-/* --------------------------------
-   ELEMENTS
--------------------------------- */
+/*
+==================================================
+LOAD MEDIAPIPE
+==================================================
+*/
 
-const file=document.getElementById("file");
-const upload=document.getElementById("upload");
-const photo=document.getElementById("photo");
-const photoBox=document.getElementById("photoBox");
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
+async function loadAI(){
 
-const rate=document.getElementById("rate");
-const status=document.getElementById("status");
-const results=document.getElementById("results");
+    try{
 
-let faceLandmarker=null;
+        status.textContent =
+            "LOADING VISION ENGINE...";
 
-
-/* --------------------------------
-   LOAD MODEL
--------------------------------- */
-
-async function loadModel(){
-
-    status.textContent="LOADING VISION ENGINE...";
-
-    const vision = await FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
-    );
-
-    faceLandmarker = await FaceLandmarker.createFromOptions(
-        vision,
-        {
-            baseOptions:{
-                modelAssetPath:
-                "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
-                delegate:"GPU"
-            },
-
-            runningMode:"IMAGE",
-
-            numFaces:1,
-
-            minFaceDetectionConfidence:.5,
-            minFacePresenceConfidence:.5,
-            minTrackingConfidence:.5,
-
-            outputFaceBlendshapes:false,
-            outputFacialTransformationMatrixes:false
-        }
-    );
-
-    status.textContent="VISION ENGINE READY";
-}
-
-loadModel().catch(err=>{
-    console.error(err);
-    status.textContent="MODEL ERROR — CHECK INTERNET CONNECTION";
-});
+        const vision =
+            await FilesetResolver.forVisionTasks(
+                "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
+            );
 
 
-/* --------------------------------
-   PHOTO
--------------------------------- */
+        faceLandmarker =
+            await FaceLandmarker.createFromModelPath(
+                vision,
+                "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"
+            );
 
-file.addEventListener("change",()=>{
 
-    const selected=file.files[0];
+        status.textContent =
+            "VISION ENGINE READY";
 
-    if(!selected) return;
 
-    const reader=new FileReader();
-
-    reader.onload=e=>{
-
-        photo.onload=()=>{
-
-            upload.style.display="none";
-
-            photoBox.classList.add("show");
+        if(photo.src){
 
             rate.classList.add("show");
 
-            results.classList.remove("show");
+        }
 
-            status.textContent="PHOTO READY";
+    }catch(error){
 
-        };
+        console.error(
+            "MediaPipe error:",
+            error
+        );
 
-        photo.src=e.target.result;
+        status.textContent =
+            "AI LOAD ERROR — PHOTO MODE READY";
 
-    };
-
-    reader.readAsDataURL(selected);
-});
-
-
-/* --------------------------------
-   DRAW REAL LANDMARKS
--------------------------------- */
-
-function drawLandmarks(result){
-
-    if(!result.faceLandmarks ||
-       result.faceLandmarks.length===0){
-
-        return false;
     }
 
-    const landmarks=result.faceLandmarks[0];
+}
 
-    canvas.width=photo.clientWidth;
-    canvas.height=photo.clientHeight;
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+/*
+==================================================
+UPLOAD PHOTO
+==================================================
+*/
 
-    const drawingUtils=new DrawingUtils(ctx);
+file.addEventListener(
+    "change",
+    function(){
 
-    const connections =
-        FaceLandmarker.FACE_LANDMARKS_TESSELATION;
+        const selected =
+            this.files[0];
 
-    drawingUtils.drawConnectors(
+        if(!selected){
+            return;
+        }
+
+
+        if(!selected.type.startsWith("image/")){
+
+            status.textContent =
+                "PLEASE SELECT AN IMAGE";
+
+            return;
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event){
+
+                photo.onload =
+                    function(){
+
+                        upload.style.display =
+                            "none";
+
+
+                        photoBox.classList.add(
+                            "show"
+                        );
+
+
+                        /*
+                        BUTTON APPEARS
+                        EVEN IF AI IS STILL LOADING
+                        */
+
+                        rate.classList.add(
+                            "show"
+                        );
+
+
+                        if(faceLandmarker){
+
+                            status.textContent =
+                                "PHOTO READY";
+
+                        }else{
+
+                            status.textContent =
+                                "PHOTO READY • AI LOADING";
+
+                        }
+
+                    };
+
+
+                photo.src =
+                    event.target.result;
+
+            };
+
+
+        reader.readAsDataURL(selected);
+
+    }
+);
+
+
+/*
+==================================================
+DRAW LANDMARKS
+==================================================
+*/
+
+function drawFace(landmarks){
+
+    const width =
+        photo.clientWidth;
+
+    const height =
+        photo.clientHeight;
+
+
+    canvas.width =
+        width;
+
+    canvas.height =
+        height;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const drawing =
+        new DrawingUtils(ctx);
+
+
+    /*
+    FULL FACE MESH
+    */
+
+    drawing.drawConnectors(
         landmarks,
-        connections,
+        FaceLandmarker.FACE_LANDMARKS_TESSELATION,
         {
-            color:"#718cff",
+            color:"#6e8cff",
             lineWidth:0.7
         }
     );
 
-    drawingUtils.drawConnectors(
+
+    /*
+    FACE OUTLINE
+    */
+
+    drawing.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
         {
-            color:"#b78cff",
+            color:"#c28cff",
             lineWidth:2
         }
     );
 
-    drawingUtils.drawConnectors(
-        landmarks,
-        FaceLandmarker.FACE_LANDMARKS_LIPS,
-        {
-            color:"#ff83e8",
-            lineWidth:2
-        }
-    );
 
-    drawingUtils.drawConnectors(
+    /*
+    LEFT EYE
+    */
+
+    drawing.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_LEFT_EYE,
         {
-            color:"#79dfff",
+            color:"#69eaff",
             lineWidth:2
         }
     );
 
-    drawingUtils.drawConnectors(
+
+    /*
+    RIGHT EYE
+    */
+
+    drawing.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE,
         {
-            color:"#79dfff",
+            color:"#69eaff",
             lineWidth:2
         }
     );
 
-    drawingUtils.drawConnectors(
+
+    /*
+    LIPS
+    */
+
+    drawing.drawConnectors(
+        landmarks,
+        FaceLandmarker.FACE_LANDMARKS_LIPS,
+        {
+            color:"#ff78df",
+            lineWidth:2
+        }
+    );
+
+
+    /*
+    LEFT EYEBROW
+    */
+
+    drawing.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_LEFT_EYEBROW,
         {
-            color:"#a6aaff",
+            color:"#aaa8ff",
             lineWidth:2
         }
     );
 
-    drawingUtils.drawConnectors(
+
+    /*
+    RIGHT EYEBROW
+    */
+
+    drawing.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
         {
-            color:"#a6aaff",
+            color:"#aaa8ff",
             lineWidth:2
         }
     );
 
-    return landmarks;
 }
 
 
-/* --------------------------------
-   GEOMETRY
--------------------------------- */
+/*
+==================================================
+DISTANCE
+==================================================
+*/
 
 function distance(a,b){
 
@@ -666,191 +1035,394 @@ function distance(a,b){
         Math.pow(a.x-b.x,2)+
         Math.pow(a.y-b.y,2)
     );
+
 }
 
 
 /*
-  Approximate face shape from
-  actual face-oval landmarks.
+==================================================
+FACE SHAPE
+==================================================
 */
 
-function calculateFaceShape(lm){
+function getFaceShape(lm){
 
-    const top=lm[10];
-    const bottom=lm[152];
-    const left=lm[234];
-    const right=lm[454];
+    const top =
+        lm[10];
 
-    const height=distance(top,bottom);
-    const width=distance(left,right);
+    const bottom =
+        lm[152];
 
-    const ratio=height/width;
+    const left =
+        lm[234];
 
-    if(ratio>1.55) return "LONG / OVAL";
+    const right =
+        lm[454];
 
-    if(ratio<1.25) return "BROAD / ROUND";
+
+    const height =
+        distance(top,bottom);
+
+    const width =
+        distance(left,right);
+
+
+    if(width === 0){
+        return "UNKNOWN";
+    }
+
+
+    const ratio =
+        height/width;
+
+
+    if(ratio > 1.55){
+        return "LONG / OVAL";
+    }
+
+
+    if(ratio < 1.25){
+        return "BROAD / ROUND";
+    }
+
 
     return "BALANCED OVAL";
+
 }
 
 
-/* --------------------------------
-   SYMMETRY
--------------------------------- */
+/*
+==================================================
+SYMMETRY
+==================================================
+*/
 
-function calculateSymmetry(lm){
+function getSymmetry(lm){
 
-    const pairs=[
+    const pairs = [
+
         [33,263],
         [133,362],
         [61,291],
         [70,300],
         [105,334],
         [234,454]
+
     ];
 
-    let total=0;
 
-    for(const [a,b] of pairs){
+    let error = 0;
 
-        const left=lm[a];
-        const right=lm[b];
 
-        const mirroredX=1-right.x;
+    for(
+        const [a,b]
+        of pairs
+    ){
 
-        total+=Math.abs(left.x-mirroredX);
+        const p1 =
+            lm[a];
+
+        const p2 =
+            lm[b];
+
+
+        const mirrored =
+            1-p2.x;
+
+
+        error +=
+            Math.abs(
+                p1.x-mirrored
+            );
+
     }
 
-    const error=total/pairs.length;
 
-    let value=100-(error*500);
+    error /=
+        pairs.length;
 
-    value=Math.max(0,Math.min(100,value));
+
+    let value =
+        100-(error*500);
+
+
+    value =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                value
+            )
+        );
+
 
     return Math.round(value);
+
 }
 
 
-/* --------------------------------
-   ANALYSIS
--------------------------------- */
+/*
+==================================================
+ANALYSIS
+==================================================
+*/
 
-rate.addEventListener("click",async()=>{
+rate.addEventListener(
+    "click",
+    async function(){
 
-    if(!faceLandmarker){
+        if(!faceLandmarker){
 
-        status.textContent="VISION ENGINE IS STILL LOADING...";
-        return;
-    }
-
-    rate.style.display="none";
-
-    results.classList.remove("show");
-
-    photoBox.classList.add("scanning");
-
-    status.textContent="SCANNING FACIAL LANDMARKS...";
-
-    await new Promise(r=>setTimeout(r,2500));
-
-    try{
-
-        const result=
-            faceLandmarker.detect(photo);
-
-        const lm=drawLandmarks(result);
-
-        if(!lm){
-
-            photoBox.classList.remove("scanning");
-
-            status.textContent=
-                "NO FACE DETECTED — TRY A CLEARER PHOTO";
-
-            rate.style.display="block";
+            status.textContent =
+                "AI IS STILL LOADING...";
 
             return;
         }
 
-        const symmetry=calculateSymmetry(lm);
 
-        const shape=calculateFaceShape(lm);
+        rate.style.display =
+            "none";
 
-        /*
-          Technical confidence score.
-          NOT attractiveness.
-        */
 
-        const confidence=
-            Math.round(
-                Math.min(
-                    99,
-                    75+(symmetry*.24)
+        results.classList.remove(
+            "show"
+        );
+
+
+        photoBox.classList.add(
+            "scanning"
+        );
+
+
+        status.textContent =
+            "SCANNING FACIAL LANDMARKS...";
+
+
+        await new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    2200
                 )
+        );
+
+
+        try{
+
+            const result =
+                faceLandmarker.detect(
+                    photo
+                );
+
+
+            if(
+                !result.faceLandmarks ||
+                result.faceLandmarks.length === 0
+            ){
+
+                photoBox.classList.remove(
+                    "scanning"
+                );
+
+
+                status.textContent =
+                    "NO FACE DETECTED";
+
+
+                rate.style.display =
+                    "block";
+
+
+                return;
+            }
+
+
+            const landmarks =
+                result.faceLandmarks[0];
+
+
+            /*
+            REAL DRAWING
+            */
+
+            drawFace(
+                landmarks
             );
 
-        document.getElementById("score")
-            .textContent=confidence+"%";
 
-        document.getElementById("symmetry")
-            .textContent=symmetry+"%";
+            /*
+            REAL GEOMETRY
+            */
 
-        document.getElementById("faceShape")
-            .textContent=shape;
+            const symmetry =
+                getSymmetry(
+                    landmarks
+                );
 
-        document.getElementById("landmarks")
-            .textContent=lm.length;
 
-        photoBox.classList.remove("scanning");
+            const shape =
+                getFaceShape(
+                    landmarks
+                );
 
-        status.textContent="FACIAL LANDMARKS LOCKED";
 
-        results.classList.add("show");
+            /*
+            TECHNICAL ANALYSIS
+            SCORE,
+            NOT ATTRACTIVENESS
+            */
 
-    }catch(error){
+            const confidence =
+                Math.round(
+                    Math.min(
+                        99,
+                        70 +
+                        symmetry*0.29
+                    )
+                );
 
-        console.error(error);
 
-        photoBox.classList.remove("scanning");
+            document.getElementById(
+                "score"
+            ).textContent =
+                confidence+"%";
 
-        status.textContent="ANALYSIS ERROR";
 
-        rate.style.display="block";
+            document.getElementById(
+                "symmetry"
+            ).textContent =
+                symmetry+"%";
+
+
+            document.getElementById(
+                "faceShape"
+            ).textContent =
+                shape;
+
+
+            document.getElementById(
+                "eyes"
+            ).textContent =
+                "DETECTED";
+
+
+            document.getElementById(
+                "lips"
+            ).textContent =
+                "DETECTED";
+
+
+            document.getElementById(
+                "brows"
+            ).textContent =
+                "DETECTED";
+
+
+            document.getElementById(
+                "landmarks"
+            ).textContent =
+                landmarks.length;
+
+
+            photoBox.classList.remove(
+                "scanning"
+            );
+
+
+            status.textContent =
+                "FACIAL LANDMARKS LOCKED";
+
+
+            results.classList.add(
+                "show"
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Analysis error:",
+                error
+            );
+
+
+            photoBox.classList.remove(
+                "scanning"
+            );
+
+
+            status.textContent =
+                "ANALYSIS ERROR";
+
+
+            rate.style.display =
+                "block";
+
+        }
+
     }
+);
 
-});
+
+/*
+==================================================
+RESET
+==================================================
+*/
+
+document.getElementById(
+    "reset"
+).addEventListener(
+    "click",
+    function(){
+
+        file.value = "";
+
+        photo.src = "";
+
+        upload.style.display =
+            "flex";
+
+        photoBox.classList.remove(
+            "show"
+        );
+
+        photoBox.classList.remove(
+            "scanning"
+        );
+
+        rate.classList.remove(
+            "show"
+        );
+
+        rate.style.display =
+            "none";
+
+        results.classList.remove(
+            "show"
+        );
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        status.textContent =
+            "AI READY";
+
+    }
+);
 
 
-/* --------------------------------
-   RESET
--------------------------------- */
+/*
+==================================================
+START AI
+==================================================
+*/
 
-document.getElementById("reset")
-.addEventListener("click",()=>{
-
-    file.value="";
-
-    photo.src="";
-
-    upload.style.display="flex";
-
-    photoBox.classList.remove("show");
-
-    rate.classList.remove("show");
-
-    rate.style.display="none";
-
-    results.classList.remove("show");
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    status.textContent="";
-});
+loadAI();
 
 </script>
 
