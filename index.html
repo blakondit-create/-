@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>ASTRA — AI Face Analysis</title>
+<title>Cosmic Face Analysis</title>
 
 <style>
 *{
@@ -14,195 +14,152 @@
 }
 
 html,body{
+    width:100%;
     min-height:100%;
-    background:#02030b;
-    color:#fff;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:#02030a;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
     overflow-x:hidden;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(0,150,255,.20),transparent 28%),
+        radial-gradient(circle at 80% 20%,rgba(140,0,255,.22),transparent 30%),
+        radial-gradient(circle at 50% 90%,rgba(0,255,220,.10),transparent 35%),
+        #02030a;
 }
 
-.space{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    overflow:hidden;
-    pointer-events:none;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(75,50,255,.25),transparent 35%),
-        radial-gradient(circle at 90% 85%,rgba(0,220,255,.18),transparent 35%),
-        #02030b;
-}
+/* STARS */
 
 .stars{
-    position:absolute;
+    position:fixed;
     inset:0;
-    opacity:.35;
-    background-image:
-        radial-gradient(circle,#fff 1px,transparent 1.5px),
-        radial-gradient(circle,#75cfff 1px,transparent 1.5px);
-    background-size:90px 90px,150px 150px;
-    animation:stars 30s linear infinite;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
 }
 
-@keyframes stars{
-    from{transform:translateY(0)}
-    to{transform:translateY(90px)}
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:white;
+    opacity:.7;
+    animation:twinkle 3s infinite alternate;
 }
 
-.app{
+@keyframes twinkle{
+    from{opacity:.2;transform:scale(.7)}
+    to{opacity:1;transform:scale(1.5)}
+}
+
+/* MAIN */
+
+.container{
     position:relative;
     z-index:2;
-    width:min(900px,94%);
+    width:min(1100px,94%);
     margin:auto;
-    padding:28px 0 70px;
-}
-
-header{
-    text-align:center;
-    margin-bottom:22px;
+    padding:35px 0 80px;
 }
 
 .logo{
-    font-size:clamp(38px,10vw,72px);
+    text-align:center;
+    font-size:clamp(30px,7vw,68px);
     font-weight:900;
-    letter-spacing:12px;
-    margin-left:12px;
-    background:linear-gradient(
-        90deg,
-        #fff,
-        #76ecff,
-        #9b7cff,
-        #fff
-    );
-    background-size:300%;
+    letter-spacing:7px;
+    background:linear-gradient(90deg,#00eaff,#7d5cff,#ff4ee8);
     -webkit-background-clip:text;
     color:transparent;
-    animation:logo 5s linear infinite;
-}
-
-@keyframes logo{
-    from{background-position:0}
-    to{background-position:300%}
+    text-shadow:0 0 35px rgba(0,220,255,.25);
 }
 
 .subtitle{
-    color:#7180a7;
-    font-size:10px;
-    letter-spacing:5px;
-    margin-top:6px;
-}
-
-.statusBox{
-    padding:17px;
-    border-radius:19px;
-    background:rgba(10,15,40,.72);
-    border:1px solid rgba(120,190,255,.25);
-    backdrop-filter:blur(18px);
-    margin-bottom:18px;
-}
-
-.statusTitle{
-    color:#657393;
-    font-size:9px;
+    text-align:center;
+    color:#8ca4c8;
+    margin-top:8px;
     letter-spacing:3px;
-    margin-bottom:8px;
+    font-size:12px;
 }
 
-.status{
-    color:#70eaff;
-    font-size:13px;
-    line-height:1.5;
-    word-break:break-word;
+/* CARD */
+
+.panel{
+    margin-top:30px;
+    padding:25px;
+    border:1px solid rgba(130,180,255,.18);
+    border-radius:28px;
+    background:rgba(5,10,25,.72);
+    backdrop-filter:blur(25px);
+    box-shadow:
+        0 0 80px rgba(0,130,255,.08),
+        inset 0 0 40px rgba(80,100,255,.03);
 }
 
-.status.success{
-    color:#65ffb1;
-}
-
-.status.error{
-    color:#ff667e;
-}
+/* UPLOAD */
 
 .upload{
-    min-height:240px;
-    border-radius:30px;
-    border:1px solid rgba(120,200,255,.3);
-    background:linear-gradient(
-        145deg,
-        rgba(35,45,100,.4),
-        rgba(5,8,25,.8)
-    );
+    border:1px dashed rgba(0,220,255,.4);
+    border-radius:22px;
+    min-height:180px;
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
-    flex-direction:column;
     text-align:center;
+    padding:25px;
     cursor:pointer;
     transition:.3s;
 }
 
 .upload:hover{
-    border-color:#62eaff;
-    box-shadow:0 0 45px rgba(0,210,255,.15);
+    border-color:#00eaff;
+    background:rgba(0,220,255,.04);
 }
 
 .uploadIcon{
-    width:70px;
-    height:70px;
-    border-radius:22px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:32px;
-    margin-bottom:17px;
-    background:rgba(80,130,255,.12);
-    border:1px solid rgba(120,190,255,.3);
+    font-size:45px;
+    margin-bottom:12px;
 }
 
-.upload h2{
-    font-size:21px;
-    margin-bottom:7px;
+.uploadTitle{
+    font-size:22px;
+    font-weight:bold;
 }
 
-.upload p{
-    color:#7180a2;
+.uploadSub{
+    margin-top:8px;
+    color:#8190aa;
     font-size:13px;
 }
 
-#file{
+input[type=file]{
     display:none;
 }
 
-.photoBox{
+/* PHOTO */
+
+.photoArea{
     display:none;
-    margin-top:22px;
-    border-radius:28px;
-    overflow:hidden;
-    background:#000;
-    border:1px solid rgba(120,190,255,.25);
-}
-
-.photoBox.show{
-    display:block;
-}
-
-.photoWrap{
     position:relative;
     width:100%;
+    max-width:850px;
+    margin:25px auto 0;
+    overflow:hidden;
+    border-radius:22px;
+    background:#000;
+    box-shadow:0 0 50px rgba(0,190,255,.13);
 }
 
 #photo{
-    display:block;
     width:100%;
     height:auto;
-    max-height:75vh;
-    object-fit:contain;
+    display:block;
 }
 
-#landmarkCanvas{
+#overlay{
     position:absolute;
     inset:0;
     width:100%;
@@ -210,140 +167,245 @@ header{
     pointer-events:none;
 }
 
-.scanLine{
+/* SCAN */
+
+.scan{
     position:absolute;
     left:0;
-    top:0;
     width:100%;
     height:3px;
-    opacity:0;
     background:linear-gradient(
         90deg,
         transparent,
-        #54efff,
-        #fff,
-        #54efff,
+        #00eaff,
+        #ffffff,
+        #00eaff,
         transparent
     );
     box-shadow:
-        0 0 12px #54efff,
-        0 0 35px #008cff;
+        0 0 12px #00eaff,
+        0 0 35px #00eaff;
+    opacity:0;
 }
 
-.scanLine.active{
+.scanning .scan{
     opacity:1;
-    animation:scan 2.3s ease-in-out infinite;
+    animation:scan 2.2s linear infinite;
 }
 
 @keyframes scan{
-    0%{top:0}
-    50%{top:100%}
-    100%{top:0}
+    from{top:0}
+    to{top:100%}
 }
 
-.buttons{
-    display:flex;
-    gap:12px;
-    margin-top:17px;
-}
+/* BUTTON */
 
 button{
     border:0;
-    border-radius:17px;
-    padding:17px 20px;
-    color:#fff;
-    font-weight:800;
-    letter-spacing:2px;
-    font-size:12px;
+    color:white;
     cursor:pointer;
+    font-weight:900;
 }
 
-#rate{
-    flex:1;
-    background:linear-gradient(100deg,#694cff,#00cfff);
+.rate{
+    width:100%;
+    margin-top:22px;
+    padding:18px;
+    border-radius:16px;
+    font-size:20px;
+    letter-spacing:4px;
+    background:linear-gradient(90deg,#006dff,#7a35ff,#e52cff);
+    box-shadow:0 0 30px rgba(95,80,255,.3);
+    transition:.2s;
 }
 
-#rate:disabled{
-    opacity:.35;
+.rate:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 45px rgba(95,80,255,.5);
+}
+
+.rate:disabled{
+    opacity:.45;
     cursor:not-allowed;
+    transform:none;
 }
 
-#reset{
-    width:130px;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.12);
+/* STATUS */
+
+.status{
+    margin-top:18px;
+    padding:14px;
+    border-radius:14px;
+    background:rgba(255,255,255,.04);
+    color:#9db1d2;
+    font-size:13px;
+    text-align:center;
 }
+
+.status.ready{
+    color:#62ffd8;
+}
+
+.status.error{
+    color:#ff718a;
+}
+
+/* RESULTS */
 
 .results{
     display:none;
-    margin-top:22px;
-    gap:13px;
+    margin-top:35px;
 }
 
-.results.show{
+.resultTitle{
+    text-align:center;
+    font-size:28px;
+    font-weight:900;
+    letter-spacing:4px;
+}
+
+.resultSub{
+    text-align:center;
+    color:#8292ae;
+    margin-top:8px;
+    font-size:12px;
+}
+
+.cards{
+    margin-top:25px;
     display:grid;
     grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
 .card{
-    padding:19px;
-    border-radius:21px;
-    border:1px solid rgba(120,180,255,.2);
-    background:rgba(10,15,38,.72);
-    backdrop-filter:blur(18px);
+    padding:20px;
+    border-radius:20px;
+    border:1px solid rgba(130,180,255,.14);
+    background:rgba(255,255,255,.035);
 }
 
-.cardTitle{
-    color:#7180a5;
-    font-size:9px;
-    letter-spacing:3px;
-    margin-bottom:8px;
+.cardTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
 }
 
-.cardValue{
-    color:#9cefff;
-    font-size:23px;
-    font-weight:800;
+.cardName{
+    font-size:14px;
+    color:#a8b8d4;
+    letter-spacing:1px;
 }
 
-.cardText{
-    color:#b6c0d8;
-    font-size:13px;
+.score{
+    font-size:25px;
+    font-weight:900;
+    color:#62eaff;
+}
+
+.bar{
+    height:6px;
+    margin-top:14px;
+    background:#11192b;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.barFill{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#00d9ff,#775cff,#ff4fe8);
+    transition:1s;
+}
+
+.explanation{
+    margin-top:10px;
+    color:#73829d;
+    font-size:11px;
     line-height:1.5;
 }
 
-.tech{
+/* CONFIDENCE */
+
+.confidence{
     margin-top:18px;
-    padding:16px;
-    border-radius:17px;
-    background:rgba(0,0,0,.3);
-    border:1px solid rgba(255,255,255,.06);
-    color:#62708d;
-    font-size:10px;
-    line-height:1.6;
+    padding:24px;
+    text-align:center;
+    border-radius:22px;
+    background:
+        radial-gradient(circle at center,rgba(0,220,255,.09),transparent 65%),
+        rgba(255,255,255,.025);
+    border:1px solid rgba(0,220,255,.15);
 }
 
-@media(max-width:650px){
+.confTitle{
+    color:#8192ae;
+    letter-spacing:3px;
+    font-size:11px;
+}
 
-    .app{
-        width:92%;
-        padding-top:18px;
+.confNumber{
+    margin-top:8px;
+    font-size:52px;
+    font-weight:900;
+    background:linear-gradient(90deg,#00eaff,#a66cff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.detected{
+    margin-top:8px;
+    color:#61ffd6;
+    font-size:13px;
+}
+
+/* TECHNICAL INFO */
+
+.info{
+    margin-top:20px;
+    padding:18px;
+    border-radius:18px;
+    background:rgba(0,0,0,.2);
+    color:#73829b;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.info b{
+    color:#b6c6e0;
+}
+
+/* RESET */
+
+.reset{
+    margin-top:20px;
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    background:rgba(255,255,255,.06);
+    color:#aebbd0;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+    .container{
+        padding-top:22px;
+    }
+
+    .panel{
+        padding:15px;
+        border-radius:20px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
     }
 
     .logo{
-        letter-spacing:7px;
-    }
-
-    .buttons{
-        flex-direction:column;
-    }
-
-    #reset{
-        width:100%;
-    }
-
-    .results.show{
-        grid-template-columns:1fr;
+        letter-spacing:3px;
     }
 }
 </style>
@@ -351,138 +413,195 @@ button{
 
 <body>
 
-<div class="space">
-    <div class="stars"></div>
-</div>
+<div class="stars" id="stars"></div>
 
-<main class="app">
+<div class="container">
 
-<header>
-    <div class="logo">ASTRA</div>
-    <div class="subtitle">
-        AI FACE LANDMARK ANALYSIS
-    </div>
-</header>
+    <div class="logo">COSMIC</div>
+    <div class="subtitle">FACIAL GEOMETRY ANALYSIS SYSTEM</div>
 
-<div class="statusBox">
-    <div class="statusTitle">
-        SYSTEM STATUS
-    </div>
+    <div class="panel">
 
-    <div id="status" class="status">
-        STARTING...
-    </div>
-</div>
+        <label class="upload" id="uploadBox">
+            <div class="uploadIcon">◈</div>
+            <div class="uploadTitle">UPLOAD PHOTO</div>
+            <div class="uploadSub">
+                Select a clear front-facing photo
+            </div>
 
-<label class="upload" for="file">
+            <input
+                id="fileInput"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+            >
+        </label>
 
-    <div class="uploadIcon">＋</div>
+        <div class="photoArea" id="photoArea">
 
-    <h2>UPLOAD PHOTO</h2>
+            <img id="photo" alt="Uploaded photo">
 
-    <p>Choose a clear face photo</p>
+            <canvas id="overlay"></canvas>
 
-    <input
-        id="file"
-        type="file"
-        accept="image/*"
-    >
+            <div class="scan"></div>
 
-</label>
+        </div>
 
-<section id="photoBox" class="photoBox">
-
-    <div class="photoWrap">
-
-        <img
-            id="photo"
-            alt="Uploaded photo"
+        <button
+            class="rate"
+            id="rateButton"
+            disabled
         >
+            RATE
+        </button>
 
-        <canvas id="landmarkCanvas"></canvas>
+        <div class="status" id="status">
+            INITIALIZING FACE AI...
+        </div>
 
-        <div
-            id="scanLine"
-            class="scanLine"
-        ></div>
+        <div class="results" id="results">
+
+            <div class="resultTitle">
+                FACE ANALYSIS
+            </div>
+
+            <div class="resultSub">
+                COMPUTED FROM DETECTED FACIAL LANDMARKS
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">FACE GEOMETRY</div>
+                        <div class="score" id="faceScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="faceBar"></div>
+                    </div>
+                    <div class="explanation" id="faceText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">SYMMETRY</div>
+                        <div class="score" id="symScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="symBar"></div>
+                    </div>
+                    <div class="explanation" id="symText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">JAW GEOMETRY</div>
+                        <div class="score" id="jawScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="jawBar"></div>
+                    </div>
+                    <div class="explanation" id="jawText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">EYE GEOMETRY</div>
+                        <div class="score" id="eyeScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="eyeBar"></div>
+                    </div>
+                    <div class="explanation" id="eyeText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">BROW GEOMETRY</div>
+                        <div class="score" id="browScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="browBar"></div>
+                    </div>
+                    <div class="explanation" id="browText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">LIP GEOMETRY</div>
+                        <div class="score" id="lipScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="lipBar"></div>
+                    </div>
+                    <div class="explanation" id="lipText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">FACE CONTOUR</div>
+                        <div class="score" id="contourScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="contourBar"></div>
+                    </div>
+                    <div class="explanation" id="contourText"></div>
+                </div>
+
+                <div class="card">
+                    <div class="cardTop">
+                        <div class="cardName">PROPORTION CONSISTENCY</div>
+                        <div class="score" id="propScore">—</div>
+                    </div>
+                    <div class="bar">
+                        <div class="barFill" id="propBar"></div>
+                    </div>
+                    <div class="explanation" id="propText"></div>
+                </div>
+
+            </div>
+
+            <div class="confidence">
+
+                <div class="confTitle">
+                    ANALYSIS CONFIDENCE
+                </div>
+
+                <div
+                    class="confNumber"
+                    id="confidence"
+                >
+                    —%
+                </div>
+
+                <div class="detected">
+                    ✓ FACE LANDMARKS DETECTED
+                </div>
+
+            </div>
+
+            <div class="info" id="technicalInfo">
+                Analysis uses geometric measurements from the detected
+                MediaPipe facial landmarks. Scores are deterministic
+                measurements of the image and are not attractiveness ratings.
+            </div>
+
+            <button class="reset" id="resetButton">
+                ANALYZE ANOTHER PHOTO
+            </button>
+
+        </div>
 
     </div>
-
-</section>
-
-<div class="buttons">
-
-    <button
-        id="rate"
-        disabled
-    >
-        RATE / ANALYZE
-    </button>
-
-    <button id="reset">
-        RESET
-    </button>
 
 </div>
 
-<section id="results" class="results">
-
-    <div class="card">
-        <div class="cardTitle">FACE STRUCTURE</div>
-        <div id="structure" class="cardValue">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">FACE WIDTH</div>
-        <div id="widthType" class="cardValue">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">SYMMETRY</div>
-        <div id="symmetry" class="cardValue">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">ANALYSIS CONFIDENCE</div>
-        <div id="confidence" class="cardValue">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">EYES</div>
-        <div id="eyes" class="cardText">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">LIPS</div>
-        <div id="lips" class="cardText">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">BROWS</div>
-        <div id="brows" class="cardText">—</div>
-    </div>
-
-    <div class="card">
-        <div class="cardTitle">CONTOUR</div>
-        <div id="contour" class="cardText">—</div>
-    </div>
-
-</section>
-
-<div class="tech">
-    <b>ASTRA TECH</b><br>
-    MediaPipe Face Landmarker • Landmark-based visual analysis
-</div>
-
-</main>
-
-
-<!-- =====================================================
-     IMPORTANT:
-     Everything below is ONE ES MODULE.
-===================================================== -->
 
 <script type="module">
+
+/* =========================================================
+   COSMIC FACE ANALYSIS
+   MediaPipe Face Landmarker
+========================================================= */
 
 import {
     FaceLandmarker,
@@ -490,147 +609,88 @@ import {
 } from "https://unpkg.com/@mediapipe/tasks-vision@0.10.21/vision_bundle.mjs";
 
 
-/* =====================================================
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
-const statusEl =
-    document.getElementById("status");
+const fileInput = document.getElementById("fileInput");
+const uploadBox = document.getElementById("uploadBox");
+const photoArea = document.getElementById("photoArea");
+const photo = document.getElementById("photo");
+const overlay = document.getElementById("overlay");
+const rateButton = document.getElementById("rateButton");
+const statusBox = document.getElementById("status");
+const results = document.getElementById("results");
+const resetButton = document.getElementById("resetButton");
 
-const fileInput =
-    document.getElementById("file");
-
-const photoBox =
-    document.getElementById("photoBox");
-
-const photo =
-    document.getElementById("photo");
-
-const canvas =
-    document.getElementById("landmarkCanvas");
-
-const ctx =
-    canvas.getContext("2d");
-
-const scanLine =
-    document.getElementById("scanLine");
-
-const rateButton =
-    document.getElementById("rate");
-
-const resetButton =
-    document.getElementById("reset");
-
-const results =
-    document.getElementById("results");
+const ctx = overlay.getContext("2d");
 
 
-let faceLandmarker = null;
+/* =========================================================
+   STARS
+========================================================= */
 
-let aiReady = false;
+for(let i=0;i<130;i++){
 
-let selectedImage = false;
+    const star = document.createElement("div");
 
+    star.className = "star";
 
-/* =====================================================
-   STATUS
-===================================================== */
+    star.style.left = Math.random()*100 + "%";
+    star.style.top = Math.random()*100 + "%";
 
-function status(message,type=""){
+    star.style.animationDelay =
+        (Math.random()*4) + "s";
 
-    statusEl.textContent = message;
-
-    statusEl.className = "status";
-
-    if(type){
-        statusEl.classList.add(type);
-    }
-
-    console.log("[ASTRA]",message);
+    document.getElementById("stars").appendChild(star);
 }
 
 
-/* =====================================================
-   START AI
-===================================================== */
+/* =========================================================
+   STATUS
+========================================================= */
 
-async function startAI(){
+function setStatus(text,type=""){
+
+    statusBox.textContent = text;
+
+    statusBox.className = "status";
+
+    if(type){
+        statusBox.classList.add(type);
+    }
+}
+
+
+/* =========================================================
+   MEDIAPIPE
+========================================================= */
+
+let faceLandmarker = null;
+
+async function initializeAI(){
 
     try{
 
-        status(
-            "1/4 — MEDIAPIPE LIBRARY LOADED ✓",
-            "success"
-        );
-
-
-        /* ---------------------------------------------
-           WASM
-        --------------------------------------------- */
-
-        status(
-            "2/4 — LOADING AI ENGINE..."
-        );
+        setStatus("1/4 — LOADING MEDIAPIPE...");
 
         const vision =
             await FilesetResolver.forVisionTasks(
                 "https://unpkg.com/@mediapipe/tasks-vision@0.10.21/wasm"
             );
 
+        setStatus("2/4 — LOADING FACE ENGINE...");
 
-        status(
-            "2/4 — AI ENGINE LOADED ✓",
-            "success"
-        );
-
-
-        /* ---------------------------------------------
-           MODEL CHECK
-        --------------------------------------------- */
-
-        status(
-            "3/4 — CHECKING FACE MODEL..."
-        );
-
-        const modelResponse =
-            await fetch(
-                "./face_landmarker.task",
-                {
-                    method:"HEAD",
-                    cache:"no-store"
-                }
-            );
-
-        if(!modelResponse.ok){
-
-            throw new Error(
-                "face_landmarker.task not found. HTTP " +
-                modelResponse.status
-            );
-        }
-
-
-        status(
-            "3/4 — FACE MODEL FOUND ✓",
-            "success"
-        );
-
-
-        /* ---------------------------------------------
-           CREATE LANDMARKER
-        --------------------------------------------- */
-
-        status(
-            "4/4 — STARTING FACE AI..."
-        );
-
+        /*
+         * Official MediaPipe Face Landmarker model.
+         */
         faceLandmarker =
             await FaceLandmarker.createFromOptions(
                 vision,
                 {
                     baseOptions:{
                         modelAssetPath:
-                            "./face_landmarker.task",
+                        "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
 
                         delegate:"CPU"
                     },
@@ -639,41 +699,31 @@ async function startAI(){
 
                     numFaces:1,
 
-                    minFaceDetectionConfidence:.5,
+                    minFaceDetectionConfidence:0.5,
 
-                    minFacePresenceConfidence:.5,
+                    minFacePresenceConfidence:0.5,
 
-                    minTrackingConfidence:.5
+                    minTrackingConfidence:0.5,
+
+                    outputFaceBlendshapes:false,
+
+                    outputFacialTransformationMatrixes:false
                 }
             );
 
-
-        aiReady = true;
-
-
-        status(
-            "AI READY ✓ — UPLOAD A PHOTO",
-            "success"
+        setStatus(
+            "AI READY — UPLOAD A PHOTO",
+            "ready"
         );
 
-
-        if(selectedImage){
-
-            rateButton.disabled = false;
-
-        }
-
+        rateButton.disabled = true;
 
     }catch(error){
 
-        console.error(
-            "ASTRA AI ERROR:",
-            error
-        );
+        console.error(error);
 
-        status(
-            "AI ERROR: " +
-            getErrorMessage(error),
+        setStatus(
+            "AI ERROR: " + getErrorMessage(error),
             "error"
         );
 
@@ -681,15 +731,9 @@ async function startAI(){
 }
 
 
-/* =====================================================
-   ERROR
-===================================================== */
-
 function getErrorMessage(error){
 
-    if(!error){
-        return "Unknown error";
-    }
+    if(!error) return "Unknown error";
 
     if(error.message){
         return error.message;
@@ -699,133 +743,66 @@ function getErrorMessage(error){
 }
 
 
-/* =====================================================
-   FILE
-===================================================== */
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
 
-fileInput.addEventListener(
-    "change",
-    function(){
+fileInput.addEventListener("change",function(){
 
-        const file =
-            this.files?.[0];
+    const file = this.files?.[0];
 
-        if(!file){
-            return;
-        }
+    if(!file) return;
 
+    if(!file.type.startsWith("image/")){
 
-        if(!file.type.startsWith("image/")){
-
-            status(
-                "PHOTO ERROR: Please select an image.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        status(
-            "LOADING PHOTO..."
+        setStatus(
+            "PLEASE SELECT AN IMAGE FILE",
+            "error"
         );
 
-
-        const url =
-            URL.createObjectURL(file);
-
-
-        photo.onload = function(){
-
-            URL.revokeObjectURL(url);
-
-            selectedImage = true;
-
-            photoBox.classList.add("show");
-
-            resizeCanvas();
-
-            rateButton.disabled =
-                !aiReady;
-
-
-            if(aiReady){
-
-                status(
-                    "PHOTO READY — PRESS RATE",
-                    "success"
-                );
-
-            }else{
-
-                status(
-                    "PHOTO READY — AI STILL LOADING..."
-                );
-
-            }
-
-        };
-
-
-        photo.onerror = function(){
-
-            URL.revokeObjectURL(url);
-
-            status(
-                "PHOTO ERROR: Could not read image.",
-                "error"
-            );
-
-        };
-
-
-        photo.src = url;
-
-    }
-);
-
-
-/* =====================================================
-   CANVAS
-===================================================== */
-
-function resizeCanvas(){
-
-    if(!photo.naturalWidth){
         return;
     }
 
+    const url = URL.createObjectURL(file);
 
-    const rect =
-        photo.getBoundingClientRect();
+    photo.onload = function(){
+
+        URL.revokeObjectURL(url);
+
+        photoArea.style.display = "block";
+
+        results.style.display = "none";
+
+        rateButton.disabled = !faceLandmarker;
+
+        setStatus(
+            faceLandmarker
+            ? "PHOTO READY — PRESS RATE"
+            : "AI IS STILL LOADING..."
+        );
+
+        resizeCanvas();
+
+    };
+
+    photo.src = url;
+
+});
 
 
-    const dpr =
-        window.devicePixelRatio || 1;
+/* =========================================================
+   RESIZE CANVAS
+========================================================= */
 
+function resizeCanvas(){
 
-    canvas.width =
-        Math.round(rect.width*dpr);
+    if(!photo.naturalWidth) return;
 
-    canvas.height =
-        Math.round(rect.height*dpr);
+    overlay.width = photo.clientWidth;
+    overlay.height = photo.clientHeight;
 
+    drawNothing();
 
-    canvas.style.width =
-        rect.width+"px";
-
-    canvas.style.height =
-        rect.height+"px";
-
-
-    ctx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
-    );
 }
 
 
@@ -835,117 +812,990 @@ window.addEventListener(
 );
 
 
-/* =====================================================
+function drawNothing(){
+
+    ctx.clearRect(
+        0,
+        0,
+        overlay.width,
+        overlay.height
+    );
+
+}
+
+
+/* =========================================================
+   DISTANCE
+========================================================= */
+
+function distance(a,b){
+
+    const dx = a.x-b.x;
+    const dy = a.y-b.y;
+    const dz = (a.z||0)-(b.z||0);
+
+    return Math.sqrt(
+        dx*dx +
+        dy*dy +
+        dz*dz
+    );
+}
+
+
+/* =========================================================
+   2D DISTANCE
+========================================================= */
+
+function distance2D(a,b){
+
+    const dx = a.x-b.x;
+    const dy = a.y-b.y;
+
+    return Math.sqrt(
+        dx*dx + dy*dy
+    );
+}
+
+
+/* =========================================================
+   CLAMP
+========================================================= */
+
+function clamp(value,min,max){
+
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
+}
+
+
+/* =========================================================
+   MAP VALUE TO 1..8
+========================================================= */
+
+function score8(value){
+
+    return clamp(
+        value,
+        1,
+        8
+    );
+}
+
+
+/* =========================================================
+   GET LANDMARK
+========================================================= */
+
+function L(points,index){
+
+    return points[index];
+}
+
+
+/* =========================================================
+   MIDPOINT
+========================================================= */
+
+function midpoint(a,b){
+
+    return {
+        x:(a.x+b.x)/2,
+        y:(a.y+b.y)/2,
+        z:((a.z||0)+(b.z||0))/2
+    };
+
+}
+
+
+/* =========================================================
+   SYMMETRY
+========================================================= */
+
+function calculateSymmetry(p){
+
+    /*
+     * Compare pairs on the left/right side
+     * relative to the nose center.
+     */
+
+    const center = p[1];
+
+    const pairs = [
+        [33,263],
+        [133,362],
+        [159,386],
+        [145,374],
+        [61,291],
+        [78,308],
+        [10,152],
+        [234,454]
+    ];
+
+    let total = 0;
+    let count = 0;
+
+    for(const pair of pairs){
+
+        const a = p[pair[0]];
+        const b = p[pair[1]];
+
+        if(!a || !b) continue;
+
+        const left =
+            Math.abs(a.x-center.x);
+
+        const right =
+            Math.abs(b.x-center.x);
+
+        const denominator =
+            Math.max(
+                left+right,
+                0.0001
+            );
+
+        const difference =
+            Math.abs(left-right) /
+            denominator;
+
+        total += difference;
+
+        count++;
+
+    }
+
+    if(count===0) return 1;
+
+    const error = total/count;
+
+    /*
+     * 0 error = 8
+     * higher error = lower score
+     */
+
+    return score8(
+        8 - error*16
+    );
+
+}
+
+
+/* =========================================================
+   FACE GEOMETRY
+========================================================= */
+
+function calculateFaceGeometry(p){
+
+    const forehead = p[10];
+    const chin = p[152];
+
+    const left = p[234];
+    const right = p[454];
+
+    const height =
+        distance2D(forehead,chin);
+
+    const width =
+        distance2D(left,right);
+
+    const ratio =
+        height / Math.max(width,0.0001);
+
+    /*
+     * This is a geometric consistency score.
+     * It is NOT a beauty score.
+     */
+
+    const target = 1.25;
+
+    const deviation =
+        Math.abs(ratio-target);
+
+    return score8(
+        8 - deviation*8
+    );
+
+}
+
+
+/* =========================================================
+   JAW GEOMETRY
+========================================================= */
+
+function calculateJaw(p){
+
+    const leftJaw = p[234];
+    const rightJaw = p[454];
+    const chin = p[152];
+
+    const width =
+        distance2D(leftJaw,rightJaw);
+
+    const leftToChin =
+        distance2D(leftJaw,chin);
+
+    const rightToChin =
+        distance2D(rightJaw,chin);
+
+    const asymmetry =
+        Math.abs(
+            leftToChin-rightToChin
+        ) /
+        Math.max(
+            leftToChin+rightToChin,
+            0.0001
+        );
+
+    const lowerRatio =
+        width /
+        Math.max(
+            leftToChin+rightToChin,
+            0.0001
+        );
+
+    const consistency =
+        1 -
+        Math.min(
+            Math.abs(lowerRatio-.5),
+            .5
+        );
+
+    return score8(
+        3 +
+        consistency*3 -
+        asymmetry*6
+    );
+
+}
+
+
+/* =========================================================
+   EYE GEOMETRY
+========================================================= */
+
+function calculateEyes(p){
+
+    const leftOuter = p[33];
+    const leftInner = p[133];
+
+    const rightInner = p[362];
+    const rightOuter = p[263];
+
+    const leftTop = p[159];
+    const leftBottom = p[145];
+
+    const rightTop = p[386];
+    const rightBottom = p[374];
+
+    const leftWidth =
+        distance2D(
+            leftOuter,
+            leftInner
+        );
+
+    const rightWidth =
+        distance2D(
+            rightOuter,
+            rightInner
+        );
+
+    const leftHeight =
+        distance2D(
+            leftTop,
+            leftBottom
+        );
+
+    const rightHeight =
+        distance2D(
+            rightTop,
+            rightBottom
+        );
+
+    const widthError =
+        Math.abs(
+            leftWidth-rightWidth
+        ) /
+        Math.max(
+            leftWidth+rightWidth,
+            .0001
+        );
+
+    const heightError =
+        Math.abs(
+            leftHeight-rightHeight
+        ) /
+        Math.max(
+            leftHeight+rightHeight,
+            .0001
+        );
+
+    return score8(
+        8 -
+        widthError*12 -
+        heightError*8
+    );
+
+}
+
+
+/* =========================================================
+   BROW GEOMETRY
+========================================================= */
+
+function calculateBrows(p){
+
+    const leftEye = midpoint(
+        p[33],
+        p[133]
+    );
+
+    const rightEye = midpoint(
+        p[362],
+        p[263]
+    );
+
+    const leftBrow = midpoint(
+        p[70],
+        p[107]
+    );
+
+    const rightBrow = midpoint(
+        p[300],
+        p[336]
+    );
+
+    const leftDistance =
+        distance2D(
+            leftEye,
+            leftBrow
+        );
+
+    const rightDistance =
+        distance2D(
+            rightEye,
+            rightBrow
+        );
+
+    const error =
+        Math.abs(
+            leftDistance-rightDistance
+        ) /
+        Math.max(
+            leftDistance+rightDistance,
+            .0001
+        );
+
+    return score8(
+        8-error*12
+    );
+
+}
+
+
+/* =========================================================
+   LIP GEOMETRY
+========================================================= */
+
+function calculateLips(p){
+
+    const left = p[61];
+    const right = p[291];
+
+    const top = p[13];
+    const bottom = p[14];
+
+    const width =
+        distance2D(left,right);
+
+    const height =
+        distance2D(top,bottom);
+
+    const ratio =
+        width/
+        Math.max(height,.0001);
+
+    /*
+     * We measure consistency of lip geometry,
+     * not attractiveness.
+     */
+
+    const target = 3.0;
+
+    const deviation =
+        Math.abs(
+            ratio-target
+        );
+
+    return score8(
+        8-deviation*1.5
+    );
+
+}
+
+
+/* =========================================================
+   CONTOUR
+========================================================= */
+
+function calculateContour(p){
+
+    const forehead = p[10];
+    const chin = p[152];
+
+    const left = p[234];
+    const right = p[454];
+
+    const topWidth =
+        distance2D(
+            p[127],
+            p[356]
+        );
+
+    const cheekWidth =
+        distance2D(
+            left,
+            right
+        );
+
+    const lowerWidth =
+        distance2D(
+            p[172],
+            p[397]
+        );
+
+    const faceHeight =
+        distance2D(
+            forehead,
+            chin
+        );
+
+    const normalizedTop =
+        topWidth/
+        Math.max(faceHeight,.0001);
+
+    const normalizedCheek =
+        cheekWidth/
+        Math.max(faceHeight,.0001);
+
+    const normalizedLower =
+        lowerWidth/
+        Math.max(faceHeight,.0001);
+
+    const spread =
+        Math.abs(normalizedTop-.55)+
+        Math.abs(normalizedCheek-.85)+
+        Math.abs(normalizedLower-.65);
+
+    return score8(
+        8-spread*3
+    );
+
+}
+
+
+/* =========================================================
+   PROPORTION CONSISTENCY
+========================================================= */
+
+function calculateProportions(p){
+
+    const faceHeight =
+        distance2D(
+            p[10],
+            p[152]
+        );
+
+    const faceWidth =
+        distance2D(
+            p[234],
+            p[454]
+        );
+
+    const eyeDistance =
+        distance2D(
+            midpoint(p[33],p[133]),
+            midpoint(p[362],p[263])
+        );
+
+    const noseToLip =
+        distance2D(
+            p[1],
+            p[13]
+        );
+
+    const lipToChin =
+        distance2D(
+            p[14],
+            p[152]
+        );
+
+    const a =
+        eyeDistance/
+        Math.max(faceWidth,.0001);
+
+    const b =
+        noseToLip/
+        Math.max(faceHeight,.0001);
+
+    const c =
+        lipToChin/
+        Math.max(faceHeight,.0001);
+
+    const variation =
+        Math.abs(a-.42)+
+        Math.abs(b-.16)+
+        Math.abs(c-.25);
+
+    return score8(
+        8-variation*8
+    );
+
+}
+
+
+/* =========================================================
+   ANALYSIS CONFIDENCE
+========================================================= */
+
+function calculateConfidence(p){
+
+    if(!p || p.length < 400){
+
+        return 0;
+
+    }
+
+    const required = [
+        1,
+        10,
+        13,
+        14,
+        33,
+        61,
+        133,
+        145,
+        152,
+        159,
+        172,
+        234,
+        263,
+        291,
+        300,
+        362,
+        374,
+        386,
+        397,
+        454
+    ];
+
+    let valid = 0;
+
+    for(const index of required){
+
+        const point = p[index];
+
+        if(
+            point &&
+            Number.isFinite(point.x) &&
+            Number.isFinite(point.y)
+        ){
+            valid++;
+        }
+
+    }
+
+    return Math.round(
+        valid/required.length*100
+    );
+
+}
+
+
+/* =========================================================
+   DRAW LANDMARKS
+========================================================= */
+
+function drawLandmarks(points){
+
+    ctx.clearRect(
+        0,
+        0,
+        overlay.width,
+        overlay.height
+    );
+
+    /*
+     * all landmarks
+     */
+
+    for(let i=0;i<points.length;i++){
+
+        const p = points[i];
+
+        const x =
+            p.x*overlay.width;
+
+        const y =
+            p.y*overlay.height;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            i%10===0 ? 2.2 : 1.3,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle =
+            i%10===0
+            ? "#ffffff"
+            : "#00eaff";
+
+        ctx.fill();
+
+    }
+
+
+    /*
+     * important lines
+     */
+
+    drawLine(points,10,152);
+    drawLine(points,234,454);
+
+    drawLine(points,33,133);
+    drawLine(points,362,263);
+
+    drawLine(points,61,291);
+
+    drawLine(points,13,14);
+
+    drawLine(points,172,397);
+
+    /*
+     * face contour
+     */
+
+    const contour = [
+        10,
+        338,
+        297,
+        332,
+        284,
+        251,
+        389,
+        356,
+        454,
+        323,
+        361,
+        288,
+        397,
+        365,
+        379,
+        378,
+        400,
+        377,
+        152,
+        176,
+        149,
+        150,
+        136,
+        172,
+        58,
+        132,
+        93,
+        234,
+        127,
+        162,
+        21,
+        54,
+        103,
+        67,
+        109,
+        10
+    ];
+
+    ctx.beginPath();
+
+    contour.forEach((index,i)=>{
+
+        const p = points[index];
+
+        if(!p) return;
+
+        const x =
+            p.x*overlay.width;
+
+        const y =
+            p.y*overlay.height;
+
+        if(i===0){
+            ctx.moveTo(x,y);
+        }else{
+            ctx.lineTo(x,y);
+        }
+
+    });
+
+    ctx.strokeStyle =
+        "rgba(125,92,255,.85)";
+
+    ctx.lineWidth = 1.5;
+
+    ctx.stroke();
+
+}
+
+
+function drawLine(points,a,b){
+
+    const p1 = points[a];
+    const p2 = points[b];
+
+    if(!p1 || !p2) return;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        p1.x*overlay.width,
+        p1.y*overlay.height
+    );
+
+    ctx.lineTo(
+        p2.x*overlay.width,
+        p2.y*overlay.height
+    );
+
+    ctx.strokeStyle =
+        "rgba(0,238,255,.9)";
+
+    ctx.lineWidth = 1.5;
+
+    ctx.stroke();
+
+}
+
+
+/* =========================================================
+   SHOW SCORE
+========================================================= */
+
+function showScore(id,score,text){
+
+    const number =
+        Number(score.toFixed(1));
+
+    document.getElementById(id+"Score")
+        .textContent =
+        number.toFixed(1)+"/8";
+
+    document.getElementById(id+"Bar")
+        .style.width =
+        (number/8*100)+"%";
+
+    document.getElementById(id+"Text")
+        .textContent =
+        text;
+
+}
+
+
+/* =========================================================
    RATE
-===================================================== */
+========================================================= */
 
 rateButton.addEventListener(
     "click",
     async function(){
 
-        if(!aiReady){
+        if(!faceLandmarker){
 
-            status(
-                "AI IS NOT READY YET.",
+            setStatus(
+                "AI IS NOT READY",
                 "error"
             );
 
             return;
         }
 
+        if(!photo.complete){
 
-        if(!selectedImage){
-
-            status(
-                "UPLOAD A PHOTO FIRST.",
+            setStatus(
+                "PHOTO IS NOT READY",
                 "error"
             );
 
             return;
         }
-
 
         rateButton.disabled = true;
 
-        results.classList.remove("show");
+        results.style.display = "none";
 
-        scanLine.classList.add("active");
+        photoArea.classList.add("scanning");
 
+        setStatus(
+            "SCANNING FACIAL LANDMARKS..."
+        );
+
+        /*
+         * Give scanning animation time to appear.
+         */
+
+        await new Promise(
+            resolve =>
+            setTimeout(resolve,900)
+        );
 
         try{
 
-            status(
-                "SCANNING FACE..."
-            );
-
-            await sleep(1700);
-
-
-            status(
-                "DETECTING FACE LANDMARKS..."
-            );
-
-
-            const detection =
+            const result =
                 faceLandmarker.detect(photo);
 
-
             if(
-                !detection ||
-                !detection.faceLandmarks ||
-                detection.faceLandmarks.length===0
+                !result ||
+                !result.faceLandmarks ||
+                result.faceLandmarks.length===0
             ){
 
                 throw new Error(
-                    "NO FACE DETECTED — use a clear photo with one visible face."
+                    "No face detected. Use a clear front-facing photo."
                 );
+
             }
 
+            const points =
+                result.faceLandmarks[0];
 
-            const landmarks =
-                detection.faceLandmarks[0];
+            if(!points || points.length < 400){
+
+                throw new Error(
+                    "Face landmarks were incomplete."
+                );
+
+            }
+
+            resizeCanvas();
+
+            drawLandmarks(points);
 
 
-            status(
-                "FACE DETECTED — DRAWING ANALYSIS...",
-                "success"
+            /* REAL CALCULATIONS */
+
+            const face =
+                calculateFaceGeometry(points);
+
+            const symmetry =
+                calculateSymmetry(points);
+
+            const jaw =
+                calculateJaw(points);
+
+            const eyes =
+                calculateEyes(points);
+
+            const brows =
+                calculateBrows(points);
+
+            const lips =
+                calculateLips(points);
+
+            const contour =
+                calculateContour(points);
+
+            const proportions =
+                calculateProportions(points);
+
+            const confidence =
+                calculateConfidence(points);
+
+
+            /* SHOW */
+
+            showScore(
+                "face",
+                face,
+                "Calculated from measured face height and width."
+            );
+
+            showScore(
+                "sym",
+                symmetry,
+                "Calculated from left/right landmark balance."
+            );
+
+            showScore(
+                "jaw",
+                jaw,
+                "Calculated from lower-face width and chin geometry."
+            );
+
+            showScore(
+                "eye",
+                eyes,
+                "Calculated from eye width, height and bilateral consistency."
+            );
+
+            showScore(
+                "brow",
+                brows,
+                "Calculated from eyebrow-to-eye distances."
+            );
+
+            showScore(
+                "lip",
+                lips,
+                "Calculated from measured lip width-to-height geometry."
+            );
+
+            showScore(
+                "contour",
+                contour,
+                "Calculated from forehead, cheek and lower-face contour points."
+            );
+
+            showScore(
+                "prop",
+                proportions,
+                "Calculated from several normalized facial proportions."
             );
 
 
-            drawFace(landmarks);
-
-            analyzeFace(landmarks);
-
-
-            results.classList.add("show");
+            document.getElementById(
+                "confidence"
+            ).textContent =
+                confidence+"%";
 
 
-            status(
-                "ANALYSIS COMPLETE ✓",
-                "success"
+            results.style.display =
+                "block";
+
+            setStatus(
+                "ANALYSIS COMPLETE",
+                "ready"
             );
-
 
         }catch(error){
 
-            console.error(
-                "ANALYSIS ERROR:",
-                error
-            );
+            console.error(error);
 
-
-            status(
-                "ANALYSIS ERROR: " +
+            setStatus(
+                "ANALYSIS ERROR: "+
                 getErrorMessage(error),
                 "error"
             );
 
-
         }finally{
 
-            scanLine.classList.remove("active");
+            photoArea.classList.remove(
+                "scanning"
+            );
 
-            rateButton.disabled = false;
+            rateButton.disabled =
+                false;
 
         }
 
@@ -953,413 +1803,9 @@ rateButton.addEventListener(
 );
 
 
-/* =====================================================
-   LANDMARK POINT
-===================================================== */
-
-function point(landmarks,index){
-
-    const p =
-        landmarks[index];
-
-    if(!p){
-        return null;
-    }
-
-
-    return {
-
-        x:p.x*photo.clientWidth,
-
-        y:p.y*photo.clientHeight
-
-    };
-}
-
-
-/* =====================================================
-   DRAW LINE
-===================================================== */
-
-function drawLine(points){
-
-    const valid =
-        points.filter(Boolean);
-
-
-    if(valid.length<2){
-        return;
-    }
-
-
-    ctx.beginPath();
-
-
-    ctx.moveTo(
-        valid[0].x,
-        valid[0].y
-    );
-
-
-    for(
-        let i=1;
-        i<valid.length;
-        i++
-    ){
-
-        ctx.lineTo(
-            valid[i].x,
-            valid[i].y
-        );
-
-    }
-
-
-    ctx.stroke();
-}
-
-
-/* =====================================================
-   DRAW FACE
-===================================================== */
-
-function drawFace(landmarks){
-
-    resizeCanvas();
-
-
-    ctx.clearRect(
-        0,
-        0,
-        photo.clientWidth,
-        photo.clientHeight
-    );
-
-
-    ctx.lineWidth = 1.5;
-
-    ctx.strokeStyle =
-        "rgba(70,235,255,.95)";
-
-    ctx.fillStyle =
-        "rgba(70,235,255,.95)";
-
-
-    /* FACE */
-
-    const contour = [
-
-        10,338,297,332,284,251,
-        389,356,454,323,361,288,
-        397,365,379,378,400,377,
-        152,148,176,149,150,136,
-        172,58,132,93,234,127,
-        162,21,54,103,67,109,10
-
-    ];
-
-
-    drawLine(
-        contour.map(
-            i=>point(landmarks,i)
-        )
-    );
-
-
-    /* LEFT EYE */
-
-    const leftEye = [
-
-        33,133,160,159,158,157,
-        173,153,144,145,23,33
-
-    ];
-
-
-    drawLine(
-        leftEye.map(
-            i=>point(landmarks,i)
-        )
-    );
-
-
-    /* RIGHT EYE */
-
-    const rightEye = [
-
-        362,263,387,386,385,384,
-        398,373,380,374,362
-
-    ];
-
-
-    drawLine(
-        rightEye.map(
-            i=>point(landmarks,i)
-        )
-    );
-
-
-    /* LIPS */
-
-    const lips = [
-
-        61,146,91,181,84,17,
-        314,405,321,375,291,308,
-        324,318,402,317,14,87,
-        178,88,95,78,61
-
-    ];
-
-
-    drawLine(
-        lips.map(
-            i=>point(landmarks,i)
-        )
-    );
-
-
-    /* NOSE */
-
-    drawLine([
-
-        point(landmarks,168),
-        point(landmarks,6),
-        point(landmarks,197),
-        point(landmarks,195)
-
-    ]);
-
-
-    /* BROWS */
-
-    drawLine([
-
-        point(landmarks,70),
-        point(landmarks,63),
-        point(landmarks,105),
-        point(landmarks,66),
-        point(landmarks,107)
-
-    ]);
-
-
-    drawLine([
-
-        point(landmarks,336),
-        point(landmarks,296),
-        point(landmarks,334),
-        point(landmarks,293),
-        point(landmarks,300)
-
-    ]);
-
-
-    /* CENTER */
-
-    ctx.strokeStyle =
-        "rgba(255,255,255,.32)";
-
-    ctx.setLineDash([5,7]);
-
-
-    drawLine([
-
-        point(landmarks,10),
-        point(landmarks,168),
-        point(landmarks,6),
-        point(landmarks,152)
-
-    ]);
-
-
-    ctx.setLineDash([]);
-
-
-    /* DOTS */
-
-    const dots = [
-
-        10,152,
-        234,454,
-        33,133,
-        362,263,
-        61,291,
-        70,300,
-        168,6
-
-    ];
-
-
-    for(const index of dots){
-
-        const p =
-            point(landmarks,index);
-
-
-        if(!p){
-            continue;
-        }
-
-
-        ctx.beginPath();
-
-
-        ctx.arc(
-            p.x,
-            p.y,
-            3,
-            0,
-            Math.PI*2
-        );
-
-
-        ctx.fill();
-
-    }
-}
-
-
-/* =====================================================
-   DISTANCE
-===================================================== */
-
-function distance(a,b){
-
-    return Math.sqrt(
-
-        Math.pow(a.x-b.x,2) +
-
-        Math.pow(a.y-b.y,2)
-
-    );
-}
-
-
-/* =====================================================
-   ANALYSIS
-===================================================== */
-
-function analyzeFace(landmarks){
-
-    const top =
-        point(landmarks,10);
-
-    const bottom =
-        point(landmarks,152);
-
-    const left =
-        point(landmarks,234);
-
-    const right =
-        point(landmarks,454);
-
-
-    if(!top || !bottom || !left || !right){
-
-        throw new Error(
-            "Required landmarks were not detected."
-        );
-    }
-
-
-    const height =
-        distance(top,bottom);
-
-    const width =
-        distance(left,right);
-
-
-    const ratio =
-        height/width;
-
-
-    let structure;
-
-
-    if(ratio>1.48){
-
-        structure="LONG";
-
-    }else if(ratio<1.10){
-
-        structure="BROAD";
-
-    }else{
-
-        structure="BALANCED";
-    }
-
-
-    let widthType;
-
-
-    if(width<photo.clientWidth*.28){
-
-        widthType="NARROW";
-
-    }else if(width>photo.clientWidth*.58){
-
-        widthType="WIDE";
-
-    }else{
-
-        widthType="MEDIUM";
-    }
-
-
-    document.getElementById(
-        "structure"
-    ).textContent =
-        structure;
-
-
-    document.getElementById(
-        "widthType"
-    ).textContent =
-        widthType;
-
-
-    document.getElementById(
-        "symmetry"
-    ).textContent =
-        "LANDMARKS DETECTED";
-
-
-    document.getElementById(
-        "confidence"
-    ).textContent =
-        "HIGH";
-
-
-    document.getElementById(
-        "eyes"
-    ).textContent =
-        "Eye landmarks detected and outlined.";
-
-
-    document.getElementById(
-        "lips"
-    ).textContent =
-        "Lip landmarks detected and outlined.";
-
-
-    document.getElementById(
-        "brows"
-    ).textContent =
-        "Eyebrow landmarks detected.";
-
-
-    document.getElementById(
-        "contour"
-    ).textContent =
-        "Facial contour landmarks detected.";
-}
-
-
-/* =====================================================
+/* =========================================================
    RESET
-===================================================== */
+========================================================= */
 
 resetButton.addEventListener(
     "click",
@@ -1369,61 +1815,32 @@ resetButton.addEventListener(
 
         photo.src = "";
 
-        selectedImage = false;
+        photoArea.style.display =
+            "none";
 
-        photoBox.classList.remove("show");
+        results.style.display =
+            "none";
 
-        results.classList.remove("show");
+        rateButton.disabled =
+            true;
 
-        scanLine.classList.remove("active");
+        drawNothing();
 
-
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
+        setStatus(
+            faceLandmarker
+            ? "AI READY — UPLOAD A PHOTO"
+            : "AI IS LOADING..."
         );
-
-
-        rateButton.disabled = true;
-
-
-        if(aiReady){
-
-            status(
-                "AI READY ✓ — UPLOAD A PHOTO",
-                "success"
-            );
-
-        }else{
-
-            status(
-                "AI IS LOADING..."
-            );
-        }
 
     }
 );
 
 
-/* =====================================================
-   SLEEP
-===================================================== */
-
-function sleep(ms){
-
-    return new Promise(
-        resolve=>setTimeout(resolve,ms)
-    );
-}
-
-
-/* =====================================================
+/* =========================================================
    START
-===================================================== */
+========================================================= */
 
-startAI();
+initializeAI();
 
 </script>
 
