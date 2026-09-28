@@ -6,9 +6,6 @@
 
 <title>ASTRA — AI Face Analysis</title>
 
-<!-- MediaPipe loaded normally -->
-<script src="https://unpkg.com/@mediapipe/tasks-vision@0.10.21/vision_bundle.js"></script>
-
 <style>
 *{
     box-sizing:border-box;
@@ -19,7 +16,7 @@
 html,body{
     min-height:100%;
     background:#02030b;
-    color:white;
+    color:#fff;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
@@ -30,45 +27,27 @@ body{
 .space{
     position:fixed;
     inset:0;
+    z-index:0;
     overflow:hidden;
     pointer-events:none;
-    z-index:0;
-}
-
-.space:before{
-    content:"";
-    position:absolute;
-    width:700px;
-    height:700px;
-    left:-250px;
-    top:-300px;
-    background:radial-gradient(circle,rgba(72,45,255,.35),transparent 65%);
-    filter:blur(20px);
-}
-
-.space:after{
-    content:"";
-    position:absolute;
-    width:700px;
-    height:700px;
-    right:-300px;
-    bottom:-300px;
-    background:radial-gradient(circle,rgba(0,220,255,.25),transparent 65%);
-    filter:blur(20px);
+    background:
+        radial-gradient(circle at 15% 10%,rgba(75,50,255,.25),transparent 35%),
+        radial-gradient(circle at 90% 85%,rgba(0,220,255,.18),transparent 35%),
+        #02030b;
 }
 
 .stars{
     position:absolute;
     inset:0;
-    background-image:
-        radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1.5px),
-        radial-gradient(circle,rgba(100,180,255,.5) 1px,transparent 1.5px);
-    background-size:90px 90px,150px 150px;
     opacity:.35;
-    animation:starsMove 30s linear infinite;
+    background-image:
+        radial-gradient(circle,#fff 1px,transparent 1.5px),
+        radial-gradient(circle,#75cfff 1px,transparent 1.5px);
+    background-size:90px 90px,150px 150px;
+    animation:stars 30s linear infinite;
 }
 
-@keyframes starsMove{
+@keyframes stars{
     from{transform:translateY(0)}
     to{transform:translateY(90px)}
 }
@@ -78,114 +57,118 @@ body{
     z-index:2;
     width:min(900px,94%);
     margin:auto;
-    padding:30px 0 80px;
+    padding:28px 0 70px;
 }
 
 header{
     text-align:center;
-    margin-bottom:24px;
+    margin-bottom:22px;
 }
 
 .logo{
-    font-size:clamp(34px,9vw,70px);
+    font-size:clamp(38px,10vw,72px);
     font-weight:900;
     letter-spacing:12px;
     margin-left:12px;
-    background:linear-gradient(90deg,#fff,#83eaff,#a98cff,#fff);
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #76ecff,
+        #9b7cff,
+        #fff
+    );
     background-size:300%;
     -webkit-background-clip:text;
     color:transparent;
-    animation:logoGlow 5s linear infinite;
+    animation:logo 5s linear infinite;
 }
 
-@keyframes logoGlow{
-    from{background-position:0%}
+@keyframes logo{
+    from{background-position:0}
     to{background-position:300%}
 }
 
 .subtitle{
-    margin-top:5px;
-    color:#8090b9;
+    color:#7180a7;
+    font-size:10px;
     letter-spacing:5px;
-    font-size:11px;
+    margin-top:6px;
 }
 
 .statusBox{
-    margin:20px auto;
-    padding:15px 18px;
-    border:1px solid rgba(120,180,255,.25);
-    border-radius:18px;
+    padding:17px;
+    border-radius:19px;
     background:rgba(10,15,40,.72);
+    border:1px solid rgba(120,190,255,.25);
     backdrop-filter:blur(18px);
+    margin-bottom:18px;
 }
 
 .statusTitle{
-    font-size:10px;
-    color:#7484a9;
+    color:#657393;
+    font-size:9px;
     letter-spacing:3px;
-    margin-bottom:7px;
+    margin-bottom:8px;
 }
 
 .status{
-    font-size:14px;
-    color:#73e9ff;
+    color:#70eaff;
+    font-size:13px;
+    line-height:1.5;
     word-break:break-word;
-}
-
-.status.error{
-    color:#ff647d;
 }
 
 .status.success{
     color:#65ffb1;
 }
 
+.status.error{
+    color:#ff667e;
+}
+
 .upload{
-    position:relative;
-    min-height:250px;
+    min-height:240px;
     border-radius:30px;
-    border:1px solid rgba(125,200,255,.3);
+    border:1px solid rgba(120,200,255,.3);
     background:linear-gradient(
         145deg,
-        rgba(30,40,90,.42),
-        rgba(4,7,22,.75)
+        rgba(35,45,100,.4),
+        rgba(5,8,25,.8)
     );
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
+    flex-direction:column;
     text-align:center;
-    padding:30px;
     cursor:pointer;
-    overflow:hidden;
     transition:.3s;
 }
 
 .upload:hover{
-    border-color:#66ddff;
-    box-shadow:0 0 50px rgba(0,200,255,.15);
+    border-color:#62eaff;
+    box-shadow:0 0 45px rgba(0,210,255,.15);
 }
 
 .uploadIcon{
-    width:72px;
-    height:72px;
+    width:70px;
+    height:70px;
     border-radius:22px;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     font-size:32px;
+    margin-bottom:17px;
     background:rgba(80,130,255,.12);
-    border:1px solid rgba(120,180,255,.3);
-    margin-bottom:18px;
+    border:1px solid rgba(120,190,255,.3);
 }
 
 .upload h2{
-    font-size:22px;
-    margin-bottom:8px;
+    font-size:21px;
+    margin-bottom:7px;
 }
 
 .upload p{
-    color:#7482a6;
+    color:#7180a2;
     font-size:13px;
 }
 
@@ -195,12 +178,11 @@ header{
 
 .photoBox{
     display:none;
-    position:relative;
-    margin-top:24px;
-    border-radius:30px;
+    margin-top:22px;
+    border-radius:28px;
     overflow:hidden;
     background:#000;
-    border:1px solid rgba(120,180,255,.25);
+    border:1px solid rgba(120,190,255,.25);
 }
 
 .photoBox.show{
@@ -218,13 +200,11 @@ header{
     height:auto;
     max-height:75vh;
     object-fit:contain;
-    background:#000;
 }
 
 #landmarkCanvas{
     position:absolute;
-    left:0;
-    top:0;
+    inset:0;
     width:100%;
     height:100%;
     pointer-events:none;
@@ -233,26 +213,26 @@ header{
 .scanLine{
     position:absolute;
     left:0;
+    top:0;
     width:100%;
     height:3px;
+    opacity:0;
     background:linear-gradient(
         90deg,
         transparent,
-        #4df4ff,
-        white,
-        #4df4ff,
+        #54efff,
+        #fff,
+        #54efff,
         transparent
     );
     box-shadow:
-        0 0 12px #4df4ff,
+        0 0 12px #54efff,
         0 0 35px #008cff;
-    opacity:0;
-    z-index:5;
 }
 
 .scanLine.active{
     opacity:1;
-    animation:scan 2.4s ease-in-out infinite;
+    animation:scan 2.3s ease-in-out infinite;
 }
 
 @keyframes scan{
@@ -264,24 +244,23 @@ header{
 .buttons{
     display:flex;
     gap:12px;
-    margin-top:18px;
+    margin-top:17px;
 }
 
 button{
-    border:none;
-    cursor:pointer;
-    color:white;
+    border:0;
+    border-radius:17px;
+    padding:17px 20px;
+    color:#fff;
     font-weight:800;
     letter-spacing:2px;
-    border-radius:18px;
-    padding:17px 20px;
-    font-size:13px;
-    transition:.2s;
+    font-size:12px;
+    cursor:pointer;
 }
 
 #rate{
     flex:1;
-    background:linear-gradient(100deg,#6d4cff,#00cfff);
+    background:linear-gradient(100deg,#694cff,#00cfff);
 }
 
 #rate:disabled{
@@ -295,14 +274,10 @@ button{
     border:1px solid rgba(255,255,255,.12);
 }
 
-button:not(:disabled):active{
-    transform:scale(.97);
-}
-
 .results{
     display:none;
-    margin-top:25px;
-    gap:14px;
+    margin-top:22px;
+    gap:13px;
 }
 
 .results.show{
@@ -311,24 +286,24 @@ button:not(:disabled):active{
 }
 
 .card{
+    padding:19px;
+    border-radius:21px;
     border:1px solid rgba(120,180,255,.2);
     background:rgba(10,15,38,.72);
     backdrop-filter:blur(18px);
-    border-radius:22px;
-    padding:20px;
 }
 
 .cardTitle{
     color:#7180a5;
-    font-size:10px;
+    font-size:9px;
     letter-spacing:3px;
-    margin-bottom:9px;
+    margin-bottom:8px;
 }
 
 .cardValue{
-    font-size:24px;
+    color:#9cefff;
+    font-size:23px;
     font-weight:800;
-    color:#9aefff;
 }
 
 .cardText{
@@ -338,13 +313,13 @@ button:not(:disabled):active{
 }
 
 .tech{
-    margin-top:20px;
-    padding:18px;
-    border-radius:18px;
-    background:rgba(0,0,0,.28);
-    border:1px solid rgba(255,255,255,.07);
-    color:#63708e;
-    font-size:11px;
+    margin-top:18px;
+    padding:16px;
+    border-radius:17px;
+    background:rgba(0,0,0,.3);
+    border:1px solid rgba(255,255,255,.06);
+    color:#62708d;
+    font-size:10px;
     line-height:1.6;
 }
 
@@ -359,10 +334,6 @@ button:not(:disabled):active{
         letter-spacing:7px;
     }
 
-    .results.show{
-        grid-template-columns:1fr;
-    }
-
     .buttons{
         flex-direction:column;
     }
@@ -371,8 +342,8 @@ button:not(:disabled):active{
         width:100%;
     }
 
-    .upload{
-        min-height:220px;
+    .results.show{
+        grid-template-columns:1fr;
     }
 }
 </style>
@@ -388,11 +359,16 @@ button:not(:disabled):active{
 
 <header>
     <div class="logo">ASTRA</div>
-    <div class="subtitle">AI FACE LANDMARK ANALYSIS</div>
+    <div class="subtitle">
+        AI FACE LANDMARK ANALYSIS
+    </div>
 </header>
 
 <div class="statusBox">
-    <div class="statusTitle">SYSTEM STATUS</div>
+    <div class="statusTitle">
+        SYSTEM STATUS
+    </div>
+
     <div id="status" class="status">
         STARTING...
     </div>
@@ -418,11 +394,17 @@ button:not(:disabled):active{
 
     <div class="photoWrap">
 
-        <img id="photo" alt="Uploaded photo">
+        <img
+            id="photo"
+            alt="Uploaded photo"
+        >
 
         <canvas id="landmarkCanvas"></canvas>
 
-        <div id="scanLine" class="scanLine"></div>
+        <div
+            id="scanLine"
+            class="scanLine"
+        ></div>
 
     </div>
 
@@ -430,7 +412,10 @@ button:not(:disabled):active{
 
 <div class="buttons">
 
-    <button id="rate" disabled>
+    <button
+        id="rate"
+        disabled
+    >
         RATE / ANALYZE
     </button>
 
@@ -464,30 +449,22 @@ button:not(:disabled):active{
 
     <div class="card">
         <div class="cardTitle">EYES</div>
-        <div id="eyes" class="cardText">
-            Detected landmarks will appear here.
-        </div>
+        <div id="eyes" class="cardText">—</div>
     </div>
 
     <div class="card">
         <div class="cardTitle">LIPS</div>
-        <div id="lips" class="cardText">
-            Detected landmarks will appear here.
-        </div>
+        <div id="lips" class="cardText">—</div>
     </div>
 
     <div class="card">
         <div class="cardTitle">BROWS</div>
-        <div id="brows" class="cardText">
-            Detected landmarks will appear here.
-        </div>
+        <div id="brows" class="cardText">—</div>
     </div>
 
     <div class="card">
         <div class="cardTitle">CONTOUR</div>
-        <div id="contour" class="cardText">
-            Detected landmarks will appear here.
-        </div>
+        <div id="contour" class="cardText">—</div>
     </div>
 
 </section>
@@ -499,7 +476,23 @@ button:not(:disabled):active{
 
 </main>
 
-<script>
+
+<!-- =====================================================
+     IMPORTANT:
+     Everything below is ONE ES MODULE.
+===================================================== -->
+
+<script type="module">
+
+import {
+    FaceLandmarker,
+    FilesetResolver
+} from "https://unpkg.com/@mediapipe/tasks-vision@0.10.21/vision_bundle.mjs";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const statusEl =
     document.getElementById("status");
@@ -531,8 +524,11 @@ const resetButton =
 const results =
     document.getElementById("results");
 
+
 let faceLandmarker = null;
+
 let aiReady = false;
+
 let selectedImage = false;
 
 
@@ -555,83 +551,48 @@ function status(message,type=""){
 
 
 /* =====================================================
-   START MEDIAPIPE
+   START AI
 ===================================================== */
 
 async function startAI(){
 
-    status("1/4 — CHECKING MEDIAPIPE...");
-
     try{
 
-        if(
-            typeof FaceLandmarker === "undefined" ||
-            typeof FilesetResolver === "undefined"
-        ){
-
-            throw new Error(
-                "MediaPipe did not load from unpkg."
-            );
-        }
-
         status(
-            "1/4 — MEDIAPIPE LOADED ✓",
+            "1/4 — MEDIAPIPE LIBRARY LOADED ✓",
             "success"
         );
 
-    }catch(error){
+
+        /* ---------------------------------------------
+           WASM
+        --------------------------------------------- */
 
         status(
-            "MEDIAPIPE ERROR: " +
-            error.message,
-            "error"
+            "2/4 — LOADING AI ENGINE..."
         );
 
-        return;
-    }
-
-
-    /* ==============================================
-       WASM
-    ============================================== */
-
-    status("2/4 — LOADING AI ENGINE...");
-
-    let vision;
-
-    try{
-
-        vision =
+        const vision =
             await FilesetResolver.forVisionTasks(
                 "https://unpkg.com/@mediapipe/tasks-vision@0.10.21/wasm"
             );
+
 
         status(
             "2/4 — AI ENGINE LOADED ✓",
             "success"
         );
 
-    }catch(error){
+
+        /* ---------------------------------------------
+           MODEL CHECK
+        --------------------------------------------- */
 
         status(
-            "WASM ERROR: " +
-            error.message,
-            "error"
+            "3/4 — CHECKING FACE MODEL..."
         );
 
-        return;
-    }
-
-
-    /* ==============================================
-       MODEL
-    ============================================== */
-
-    status("3/4 — LOADING FACE MODEL...");
-
-    try{
-
-        const response =
+        const modelResponse =
             await fetch(
                 "./face_landmarker.task",
                 {
@@ -640,33 +601,28 @@ async function startAI(){
                 }
             );
 
-        if(!response.ok){
+        if(!modelResponse.ok){
 
             throw new Error(
                 "face_landmarker.task not found. HTTP " +
-                response.status
+                modelResponse.status
             );
         }
 
-    }catch(error){
 
         status(
-            "MODEL FILE ERROR: " +
-            error.message,
-            "error"
+            "3/4 — FACE MODEL FOUND ✓",
+            "success"
         );
 
-        return;
-    }
 
+        /* ---------------------------------------------
+           CREATE LANDMARKER
+        --------------------------------------------- */
 
-    /* ==============================================
-       CREATE FACE LANDMARKER
-    ============================================== */
-
-    status("4/4 — STARTING FACE AI...");
-
-    try{
+        status(
+            "4/4 — STARTING FACE AI..."
+        );
 
         faceLandmarker =
             await FaceLandmarker.createFromOptions(
@@ -691,35 +647,60 @@ async function startAI(){
                 }
             );
 
-    }catch(error){
+
+        aiReady = true;
+
 
         status(
-            "FACE AI ERROR: " +
-            error.message,
+            "AI READY ✓ — UPLOAD A PHOTO",
+            "success"
+        );
+
+
+        if(selectedImage){
+
+            rateButton.disabled = false;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "ASTRA AI ERROR:",
+            error
+        );
+
+        status(
+            "AI ERROR: " +
+            getErrorMessage(error),
             "error"
         );
 
-        console.error(error);
-
-        return;
-    }
-
-
-    aiReady = true;
-
-    status(
-        "AI READY ✓ — UPLOAD A PHOTO",
-        "success"
-    );
-
-    if(selectedImage){
-        rateButton.disabled = false;
     }
 }
 
 
 /* =====================================================
-   PHOTO
+   ERROR
+===================================================== */
+
+function getErrorMessage(error){
+
+    if(!error){
+        return "Unknown error";
+    }
+
+    if(error.message){
+        return error.message;
+    }
+
+    return String(error);
+}
+
+
+/* =====================================================
+   FILE
 ===================================================== */
 
 fileInput.addEventListener(
@@ -733,10 +714,26 @@ fileInput.addEventListener(
             return;
         }
 
-        status("LOADING PHOTO...");
+
+        if(!file.type.startsWith("image/")){
+
+            status(
+                "PHOTO ERROR: Please select an image.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        status(
+            "LOADING PHOTO..."
+        );
+
 
         const url =
             URL.createObjectURL(file);
+
 
         photo.onload = function(){
 
@@ -751,6 +748,7 @@ fileInput.addEventListener(
             rateButton.disabled =
                 !aiReady;
 
+
             if(aiReady){
 
                 status(
@@ -763,10 +761,26 @@ fileInput.addEventListener(
                 status(
                     "PHOTO READY — AI STILL LOADING..."
                 );
+
             }
+
         };
 
+
+        photo.onerror = function(){
+
+            URL.revokeObjectURL(url);
+
+            status(
+                "PHOTO ERROR: Could not read image.",
+                "error"
+            );
+
+        };
+
+
         photo.src = url;
+
     }
 );
 
@@ -781,23 +795,28 @@ function resizeCanvas(){
         return;
     }
 
+
     const rect =
         photo.getBoundingClientRect();
+
 
     const dpr =
         window.devicePixelRatio || 1;
 
+
     canvas.width =
-        rect.width * dpr;
+        Math.round(rect.width*dpr);
 
     canvas.height =
-        rect.height * dpr;
+        Math.round(rect.height*dpr);
+
 
     canvas.style.width =
-        rect.width + "px";
+        rect.width+"px";
 
     canvas.style.height =
-        rect.height + "px";
+        rect.height+"px";
+
 
     ctx.setTransform(
         dpr,
@@ -808,6 +827,7 @@ function resizeCanvas(){
         0
     );
 }
+
 
 window.addEventListener(
     "resize",
@@ -826,22 +846,24 @@ rateButton.addEventListener(
         if(!aiReady){
 
             status(
-                "AI IS NOT READY",
+                "AI IS NOT READY YET.",
                 "error"
             );
 
             return;
         }
+
 
         if(!selectedImage){
 
             status(
-                "UPLOAD A PHOTO FIRST",
+                "UPLOAD A PHOTO FIRST.",
                 "error"
             );
 
             return;
         }
+
 
         rateButton.disabled = true;
 
@@ -849,66 +871,90 @@ rateButton.addEventListener(
 
         scanLine.classList.add("active");
 
-        status("SCANNING FACE...");
 
         try{
 
-            await sleep(1600);
+            status(
+                "SCANNING FACE..."
+            );
+
+            await sleep(1700);
+
 
             status(
                 "DETECTING FACE LANDMARKS..."
             );
 
+
             const detection =
                 faceLandmarker.detect(photo);
+
 
             if(
                 !detection ||
                 !detection.faceLandmarks ||
-                detection.faceLandmarks.length === 0
+                detection.faceLandmarks.length===0
             ){
 
                 throw new Error(
-                    "NO FACE DETECTED. Use a clear photo with one visible face."
+                    "NO FACE DETECTED — use a clear photo with one visible face."
                 );
             }
 
+
             const landmarks =
                 detection.faceLandmarks[0];
+
+
+            status(
+                "FACE DETECTED — DRAWING ANALYSIS...",
+                "success"
+            );
+
 
             drawFace(landmarks);
 
             analyzeFace(landmarks);
 
+
             results.classList.add("show");
+
 
             status(
                 "ANALYSIS COMPLETE ✓",
                 "success"
             );
 
+
         }catch(error){
 
-            console.error(error);
+            console.error(
+                "ANALYSIS ERROR:",
+                error
+            );
+
 
             status(
                 "ANALYSIS ERROR: " +
-                error.message,
+                getErrorMessage(error),
                 "error"
             );
+
 
         }finally{
 
             scanLine.classList.remove("active");
 
             rateButton.disabled = false;
+
         }
+
     }
 );
 
 
 /* =====================================================
-   DRAW
+   LANDMARK POINT
 ===================================================== */
 
 function point(landmarks,index){
@@ -920,44 +966,67 @@ function point(landmarks,index){
         return null;
     }
 
+
     return {
-        x:p.x * photo.clientWidth,
-        y:p.y * photo.clientHeight
+
+        x:p.x*photo.clientWidth,
+
+        y:p.y*photo.clientHeight
+
     };
 }
 
+
+/* =====================================================
+   DRAW LINE
+===================================================== */
 
 function drawLine(points){
 
     const valid =
         points.filter(Boolean);
 
-    if(valid.length < 2){
+
+    if(valid.length<2){
         return;
     }
 
+
     ctx.beginPath();
+
 
     ctx.moveTo(
         valid[0].x,
         valid[0].y
     );
 
-    for(let i=1;i<valid.length;i++){
+
+    for(
+        let i=1;
+        i<valid.length;
+        i++
+    ){
 
         ctx.lineTo(
             valid[i].x,
             valid[i].y
         );
+
     }
+
 
     ctx.stroke();
 }
 
 
+/* =====================================================
+   DRAW FACE
+===================================================== */
+
 function drawFace(landmarks){
 
     resizeCanvas();
+
 
     ctx.clearRect(
         0,
@@ -966,95 +1035,151 @@ function drawFace(landmarks){
         photo.clientHeight
     );
 
+
     ctx.lineWidth = 1.5;
 
     ctx.strokeStyle =
-        "rgba(75,235,255,.95)";
+        "rgba(70,235,255,.95)";
 
     ctx.fillStyle =
-        "rgba(75,235,255,.95)";
+        "rgba(70,235,255,.95)";
 
+
+    /* FACE */
 
     const contour = [
+
         10,338,297,332,284,251,
         389,356,454,323,361,288,
         397,365,379,378,400,377,
         152,148,176,149,150,136,
         172,58,132,93,234,127,
         162,21,54,103,67,109,10
+
     ];
+
 
     drawLine(
         contour.map(
-            i => point(landmarks,i)
+            i=>point(landmarks,i)
         )
     );
 
 
+    /* LEFT EYE */
+
     const leftEye = [
+
         33,133,160,159,158,157,
         173,153,144,145,23,33
+
     ];
+
 
     drawLine(
         leftEye.map(
-            i => point(landmarks,i)
+            i=>point(landmarks,i)
         )
     );
 
 
+    /* RIGHT EYE */
+
     const rightEye = [
+
         362,263,387,386,385,384,
         398,373,380,374,362
+
     ];
+
 
     drawLine(
         rightEye.map(
-            i => point(landmarks,i)
+            i=>point(landmarks,i)
         )
     );
 
 
-    const mouth = [
+    /* LIPS */
+
+    const lips = [
+
         61,146,91,181,84,17,
         314,405,321,375,291,308,
         324,318,402,317,14,87,
         178,88,95,78,61
+
     ];
 
+
     drawLine(
-        mouth.map(
-            i => point(landmarks,i)
+        lips.map(
+            i=>point(landmarks,i)
         )
     );
 
 
+    /* NOSE */
+
     drawLine([
+
         point(landmarks,168),
         point(landmarks,6),
         point(landmarks,197),
         point(landmarks,195)
+
     ]);
 
 
+    /* BROWS */
+
     drawLine([
+
         point(landmarks,70),
         point(landmarks,63),
         point(landmarks,105),
         point(landmarks,66),
         point(landmarks,107)
+
     ]);
 
+
     drawLine([
+
         point(landmarks,336),
         point(landmarks,296),
         point(landmarks,334),
         point(landmarks,293),
         point(landmarks,300)
+
     ]);
 
 
+    /* CENTER */
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.32)";
+
+    ctx.setLineDash([5,7]);
+
+
+    drawLine([
+
+        point(landmarks,10),
+        point(landmarks,168),
+        point(landmarks,6),
+        point(landmarks,152)
+
+    ]);
+
+
+    ctx.setLineDash([]);
+
+
+    /* DOTS */
+
     const dots = [
+
         10,152,
         234,454,
         33,133,
@@ -1062,16 +1187,23 @@ function drawFace(landmarks){
         61,291,
         70,300,
         168,6
+
     ];
+
 
     for(const index of dots){
 
         const p =
             point(landmarks,index);
 
-        if(!p) continue;
+
+        if(!p){
+            continue;
+        }
+
 
         ctx.beginPath();
+
 
         ctx.arc(
             p.x,
@@ -1081,23 +1213,32 @@ function drawFace(landmarks){
             Math.PI*2
         );
 
+
         ctx.fill();
+
     }
+}
+
+
+/* =====================================================
+   DISTANCE
+===================================================== */
+
+function distance(a,b){
+
+    return Math.sqrt(
+
+        Math.pow(a.x-b.x,2) +
+
+        Math.pow(a.y-b.y,2)
+
+    );
 }
 
 
 /* =====================================================
    ANALYSIS
 ===================================================== */
-
-function distance(a,b){
-
-    return Math.sqrt(
-        Math.pow(a.x-b.x,2) +
-        Math.pow(a.y-b.y,2)
-    );
-}
-
 
 function analyzeFace(landmarks){
 
@@ -1113,12 +1254,14 @@ function analyzeFace(landmarks){
     const right =
         point(landmarks,454);
 
+
     if(!top || !bottom || !left || !right){
 
         throw new Error(
-            "Required face landmarks are missing."
+            "Required landmarks were not detected."
         );
     }
+
 
     const height =
         distance(top,bottom);
@@ -1126,72 +1269,86 @@ function analyzeFace(landmarks){
     const width =
         distance(left,right);
 
+
     const ratio =
-        height / width;
+        height/width;
 
 
     let structure;
 
-    if(ratio > 1.48){
 
-        structure = "LONG";
+    if(ratio>1.48){
 
-    }else if(ratio < 1.10){
+        structure="LONG";
 
-        structure = "BROAD";
+    }else if(ratio<1.10){
+
+        structure="BROAD";
 
     }else{
 
-        structure = "BALANCED";
+        structure="BALANCED";
     }
 
 
     let widthType;
 
-    if(width < photo.clientWidth*.28){
 
-        widthType = "NARROW";
+    if(width<photo.clientWidth*.28){
 
-    }else if(width > photo.clientWidth*.58){
+        widthType="NARROW";
 
-        widthType = "WIDE";
+    }else if(width>photo.clientWidth*.58){
+
+        widthType="WIDE";
 
     }else{
 
-        widthType = "MEDIUM";
+        widthType="MEDIUM";
     }
 
 
     document.getElementById(
         "structure"
-    ).textContent = structure;
+    ).textContent =
+        structure;
+
 
     document.getElementById(
         "widthType"
-    ).textContent = widthType;
+    ).textContent =
+        widthType;
+
 
     document.getElementById(
         "symmetry"
-    ).textContent = "Detected";
+    ).textContent =
+        "LANDMARKS DETECTED";
+
 
     document.getElementById(
         "confidence"
-    ).textContent = "HIGH";
+    ).textContent =
+        "HIGH";
+
 
     document.getElementById(
         "eyes"
     ).textContent =
         "Eye landmarks detected and outlined.";
 
+
     document.getElementById(
         "lips"
     ).textContent =
         "Lip landmarks detected and outlined.";
 
+
     document.getElementById(
         "brows"
     ).textContent =
         "Eyebrow landmarks detected.";
+
 
     document.getElementById(
         "contour"
@@ -1220,6 +1377,7 @@ resetButton.addEventListener(
 
         scanLine.classList.remove("active");
 
+
         ctx.clearRect(
             0,
             0,
@@ -1227,7 +1385,9 @@ resetButton.addEventListener(
             canvas.height
         );
 
+
         rateButton.disabled = true;
+
 
         if(aiReady){
 
@@ -1242,18 +1402,19 @@ resetButton.addEventListener(
                 "AI IS LOADING..."
             );
         }
+
     }
 );
 
 
 /* =====================================================
-   HELPER
+   SLEEP
 ===================================================== */
 
 function sleep(ms){
 
     return new Promise(
-        resolve => setTimeout(resolve,ms)
+        resolve=>setTimeout(resolve,ms)
     );
 }
 
