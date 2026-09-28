@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <title>ASTRA — AI Face Analysis</title>
+
+<!-- MediaPipe loaded normally -->
+<script src="https://unpkg.com/@mediapipe/tasks-vision@0.10.21/vision_bundle.js"></script>
 
 <style>
 *{
@@ -14,7 +17,6 @@
 }
 
 html,body{
-    width:100%;
     min-height:100%;
     background:#02030b;
     color:white;
@@ -24,8 +26,6 @@ html,body{
 body{
     overflow-x:hidden;
 }
-
-/* BACKGROUND */
 
 .space{
     position:fixed;
@@ -73,8 +73,6 @@ body{
     to{transform:translateY(90px)}
 }
 
-/* APP */
-
 .app{
     position:relative;
     z-index:2;
@@ -82,8 +80,6 @@ body{
     margin:auto;
     padding:30px 0 80px;
 }
-
-/* HEADER */
 
 header{
     text-align:center;
@@ -114,8 +110,6 @@ header{
     font-size:11px;
 }
 
-/* STATUS */
-
 .statusBox{
     margin:20px auto;
     padding:15px 18px;
@@ -123,7 +117,6 @@ header{
     border-radius:18px;
     background:rgba(10,15,40,.72);
     backdrop-filter:blur(18px);
-    box-shadow:0 0 30px rgba(0,100,255,.12);
 }
 
 .statusTitle{
@@ -147,15 +140,16 @@ header{
     color:#65ffb1;
 }
 
-/* UPLOAD */
-
 .upload{
     position:relative;
     min-height:250px;
     border-radius:30px;
     border:1px solid rgba(125,200,255,.3);
-    background:
-        linear-gradient(145deg,rgba(30,40,90,.42),rgba(4,7,22,.75));
+    background:linear-gradient(
+        145deg,
+        rgba(30,40,90,.42),
+        rgba(4,7,22,.75)
+    );
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -199,8 +193,6 @@ header{
     display:none;
 }
 
-/* PHOTO */
-
 .photoBox{
     display:none;
     position:relative;
@@ -209,7 +201,6 @@ header{
     overflow:hidden;
     background:#000;
     border:1px solid rgba(120,180,255,.25);
-    box-shadow:0 20px 80px rgba(0,0,0,.5);
 }
 
 .photoBox.show{
@@ -238,8 +229,6 @@ header{
     height:100%;
     pointer-events:none;
 }
-
-/* SCAN */
 
 .scanLine{
     position:absolute;
@@ -272,8 +261,6 @@ header{
     100%{top:0}
 }
 
-/* BUTTONS */
-
 .buttons{
     display:flex;
     gap:12px;
@@ -295,7 +282,6 @@ button{
 #rate{
     flex:1;
     background:linear-gradient(100deg,#6d4cff,#00cfff);
-    box-shadow:0 10px 35px rgba(0,170,255,.25);
 }
 
 #rate:disabled{
@@ -312,8 +298,6 @@ button{
 button:not(:disabled):active{
     transform:scale(.97);
 }
-
-/* RESULTS */
 
 .results{
     display:none;
@@ -353,8 +337,6 @@ button:not(:disabled):active{
     line-height:1.5;
 }
 
-/* TECH INFO */
-
 .tech{
     margin-top:20px;
     padding:18px;
@@ -366,9 +348,8 @@ button:not(:disabled):active{
     line-height:1.6;
 }
 
-/* MOBILE */
-
 @media(max-width:650px){
+
     .app{
         width:92%;
         padding-top:18px;
@@ -423,9 +404,7 @@ button:not(:disabled):active{
 
     <h2>UPLOAD PHOTO</h2>
 
-    <p>
-        Choose a clear face photo
-    </p>
+    <p>Choose a clear face photo</p>
 
     <input
         id="file"
@@ -485,68 +464,83 @@ button:not(:disabled):active{
 
     <div class="card">
         <div class="cardTitle">EYES</div>
-        <div id="eyes" class="cardText">Detected landmarks will appear here.</div>
+        <div id="eyes" class="cardText">
+            Detected landmarks will appear here.
+        </div>
     </div>
 
     <div class="card">
         <div class="cardTitle">LIPS</div>
-        <div id="lips" class="cardText">Detected landmarks will appear here.</div>
+        <div id="lips" class="cardText">
+            Detected landmarks will appear here.
+        </div>
     </div>
 
     <div class="card">
         <div class="cardTitle">BROWS</div>
-        <div id="brows" class="cardText">Detected landmarks will appear here.</div>
+        <div id="brows" class="cardText">
+            Detected landmarks will appear here.
+        </div>
     </div>
 
     <div class="card">
         <div class="cardTitle">CONTOUR</div>
-        <div id="contour" class="cardText">Detected landmarks will appear here.</div>
+        <div id="contour" class="cardText">
+            Detected landmarks will appear here.
+        </div>
     </div>
 
 </section>
 
 <div class="tech">
     <b>ASTRA TECH</b><br>
-    Local Face Landmarker model • No attractiveness scoring •
-    Landmark-based visual analysis.
+    MediaPipe Face Landmarker • Landmark-based visual analysis
 </div>
 
 </main>
 
-<script type="module">
+<script>
 
-/* =========================================================
-   BASIC ELEMENTS
-========================================================= */
+const statusEl =
+    document.getElementById("status");
 
-const fileInput = document.getElementById("file");
-const upload = document.querySelector(".upload");
+const fileInput =
+    document.getElementById("file");
 
-const statusEl = document.getElementById("status");
+const photoBox =
+    document.getElementById("photoBox");
 
-const photoBox = document.getElementById("photoBox");
-const photo = document.getElementById("photo");
+const photo =
+    document.getElementById("photo");
 
-const canvas = document.getElementById("landmarkCanvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+    document.getElementById("landmarkCanvas");
 
-const scanLine = document.getElementById("scanLine");
+const ctx =
+    canvas.getContext("2d");
 
-const rateButton = document.getElementById("rate");
-const resetButton = document.getElementById("reset");
+const scanLine =
+    document.getElementById("scanLine");
 
-const results = document.getElementById("results");
+const rateButton =
+    document.getElementById("rate");
+
+const resetButton =
+    document.getElementById("reset");
+
+const results =
+    document.getElementById("results");
 
 let faceLandmarker = null;
 let aiReady = false;
 let selectedImage = false;
 
 
-/* =========================================================
-   STATUS SYSTEM
-========================================================= */
+/* =====================================================
+   STATUS
+===================================================== */
 
-function status(message, type=""){
+function status(message,type=""){
 
     statusEl.textContent = message;
 
@@ -556,126 +550,40 @@ function status(message, type=""){
         statusEl.classList.add(type);
     }
 
-    console.log("[ASTRA]", message);
+    console.log("[ASTRA]",message);
 }
 
 
-/* =========================================================
-   ERROR FORMAT
-========================================================= */
+/* =====================================================
+   START MEDIAPIPE
+===================================================== */
 
-function readableError(error){
+async function startAI(){
 
-    if(!error){
-        return "Unknown error";
-    }
-
-    if(error.message){
-        return error.message;
-    }
-
-    return String(error);
-}
-
-
-/* =========================================================
-   CHECK MODEL FILE
-========================================================= */
-
-async function checkModel(){
-
-    status("1/4 — CHECKING face_landmarker.task...");
+    status("1/4 — CHECKING MEDIAPIPE...");
 
     try{
 
-        const response = await fetch(
-            "./face_landmarker.task",
-            {
-                method:"HEAD",
-                cache:"no-store"
-            }
-        );
-
-        if(!response.ok){
+        if(
+            typeof FaceLandmarker === "undefined" ||
+            typeof FilesetResolver === "undefined"
+        ){
 
             throw new Error(
-                "MODEL FILE NOT FOUND. HTTP " +
-                response.status +
-                ". Put face_landmarker.task beside index.html."
+                "MediaPipe did not load from unpkg."
             );
-
         }
-
-        const size = response.headers.get("content-length");
-
-        if(size){
-
-            const mb =
-                (Number(size) / 1024 / 1024).toFixed(1);
-
-            status(
-                "1/4 — MODEL FOUND (" +
-                mb +
-                " MB)"
-            );
-
-        }else{
-
-            status(
-                "1/4 — MODEL FILE FOUND"
-            );
-
-        }
-
-        return true;
-
-    }catch(error){
 
         status(
-            "MODEL ERROR: " +
-            readableError(error),
-            "error"
-        );
-
-        return false;
-    }
-}
-
-
-/* =========================================================
-   LOAD MEDIAPIPE
-========================================================= */
-
-async function loadAI(){
-
-    status("STARTING AI...");
-
-    const modelOK = await checkModel();
-
-    if(!modelOK){
-        return;
-    }
-
-
-    /* -----------------------------------------
-       IMPORT LIBRARY
-    ----------------------------------------- */
-
-    status("2/4 — LOADING AI LIBRARY...");
-
-    let mp;
-
-    try{
-
-        mp = await import(
-            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/+esm"
+            "1/4 — MEDIAPIPE LOADED ✓",
+            "success"
         );
 
     }catch(error){
 
         status(
-            "LIBRARY ERROR: " +
-            readableError(error),
+            "MEDIAPIPE ERROR: " +
+            error.message,
             "error"
         );
 
@@ -683,42 +591,31 @@ async function loadAI(){
     }
 
 
-    if(!mp.FaceLandmarker){
+    /* ==============================================
+       WASM
+    ============================================== */
 
-        status(
-            "LIBRARY ERROR: FaceLandmarker is missing.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    status("2/4 — AI LIBRARY LOADED","success");
-
-
-    /* -----------------------------------------
-       LOAD WASM
-    ----------------------------------------- */
-
-    status("3/4 — LOADING AI ENGINE...");
+    status("2/4 — LOADING AI ENGINE...");
 
     let vision;
 
     try{
 
-        const FilesetResolver = mp.FilesetResolver;
-
         vision =
             await FilesetResolver.forVisionTasks(
-                "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
+                "https://unpkg.com/@mediapipe/tasks-vision@0.10.21/wasm"
             );
+
+        status(
+            "2/4 — AI ENGINE LOADED ✓",
+            "success"
+        );
 
     }catch(error){
 
         status(
             "WASM ERROR: " +
-            readableError(error),
+            error.message,
             "error"
         );
 
@@ -726,21 +623,50 @@ async function loadAI(){
     }
 
 
-    status(
-        "3/4 — AI ENGINE LOADED",
-        "success"
-    );
+    /* ==============================================
+       MODEL
+    ============================================== */
+
+    status("3/4 — LOADING FACE MODEL...");
+
+    try{
+
+        const response =
+            await fetch(
+                "./face_landmarker.task",
+                {
+                    method:"HEAD",
+                    cache:"no-store"
+                }
+            );
+
+        if(!response.ok){
+
+            throw new Error(
+                "face_landmarker.task not found. HTTP " +
+                response.status
+            );
+        }
+
+    }catch(error){
+
+        status(
+            "MODEL FILE ERROR: " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
 
 
-    /* -----------------------------------------
+    /* ==============================================
        CREATE FACE LANDMARKER
-    ----------------------------------------- */
+    ============================================== */
 
     status("4/4 — STARTING FACE AI...");
 
     try{
-
-        const FaceLandmarker = mp.FaceLandmarker;
 
         faceLandmarker =
             await FaceLandmarker.createFromOptions(
@@ -750,11 +676,6 @@ async function loadAI(){
                         modelAssetPath:
                             "./face_landmarker.task",
 
-                        /*
-                         * GPU deliberately disabled.
-                         * This makes the first test more
-                         * compatible with mobile browsers.
-                         */
                         delegate:"CPU"
                     },
 
@@ -774,7 +695,7 @@ async function loadAI(){
 
         status(
             "FACE AI ERROR: " +
-            readableError(error),
+            error.message,
             "error"
         );
 
@@ -797,27 +718,18 @@ async function loadAI(){
 }
 
 
-/* =========================================================
-   IMAGE UPLOAD
-========================================================= */
+/* =====================================================
+   PHOTO
+===================================================== */
 
 fileInput.addEventListener(
     "change",
     function(){
 
-        const file = this.files?.[0];
+        const file =
+            this.files?.[0];
 
         if(!file){
-            return;
-        }
-
-        if(!file.type.startsWith("image/")){
-
-            status(
-                "UPLOAD ERROR: Please choose an image.",
-                "error"
-            );
-
             return;
         }
 
@@ -836,7 +748,8 @@ fileInput.addEventListener(
 
             resizeCanvas();
 
-            rateButton.disabled = !aiReady;
+            rateButton.disabled =
+                !aiReady;
 
             if(aiReady){
 
@@ -848,19 +761,9 @@ fileInput.addEventListener(
             }else{
 
                 status(
-                    "PHOTO READY — AI IS STILL LOADING..."
+                    "PHOTO READY — AI STILL LOADING..."
                 );
-
             }
-        };
-
-        photo.onerror = function(){
-
-            status(
-                "PHOTO ERROR: Browser could not read image.",
-                "error"
-            );
-
         };
 
         photo.src = url;
@@ -868,9 +771,9 @@ fileInput.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    CANVAS
-========================================================= */
+===================================================== */
 
 function resizeCanvas(){
 
@@ -885,10 +788,10 @@ function resizeCanvas(){
         window.devicePixelRatio || 1;
 
     canvas.width =
-        Math.round(rect.width * dpr);
+        rect.width * dpr;
 
     canvas.height =
-        Math.round(rect.height * dpr);
+        rect.height * dpr;
 
     canvas.style.width =
         rect.width + "px";
@@ -912,9 +815,9 @@ window.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    RATE
-========================================================= */
+===================================================== */
 
 rateButton.addEventListener(
     "click",
@@ -923,7 +826,7 @@ rateButton.addEventListener(
         if(!aiReady){
 
             status(
-                "AI IS NOT READY YET.",
+                "AI IS NOT READY",
                 "error"
             );
 
@@ -933,7 +836,7 @@ rateButton.addEventListener(
         if(!selectedImage){
 
             status(
-                "UPLOAD A PHOTO FIRST.",
+                "UPLOAD A PHOTO FIRST",
                 "error"
             );
 
@@ -950,14 +853,11 @@ rateButton.addEventListener(
 
         try{
 
-            /*
-             * Give the scan animation time
-             * to visibly run.
-             */
-
             await sleep(1600);
 
-            status("DETECTING FACE LANDMARKS...");
+            status(
+                "DETECTING FACE LANDMARKS..."
+            );
 
             const detection =
                 faceLandmarker.detect(photo);
@@ -976,11 +876,6 @@ rateButton.addEventListener(
             const landmarks =
                 detection.faceLandmarks[0];
 
-            status(
-                "FACE DETECTED — DRAWING LANDMARKS...",
-                "success"
-            );
-
             drawFace(landmarks);
 
             analyzeFace(landmarks);
@@ -998,7 +893,7 @@ rateButton.addEventListener(
 
             status(
                 "ANALYSIS ERROR: " +
-                readableError(error),
+                error.message,
                 "error"
             );
 
@@ -1012,13 +907,14 @@ rateButton.addEventListener(
 );
 
 
-/* =========================================================
-   DRAW FACE
-========================================================= */
+/* =====================================================
+   DRAW
+===================================================== */
 
 function point(landmarks,index){
 
-    const p = landmarks[index];
+    const p =
+        landmarks[index];
 
     if(!p){
         return null;
@@ -1031,7 +927,7 @@ function point(landmarks,index){
 }
 
 
-function line(points){
+function drawLine(points){
 
     const valid =
         points.filter(Boolean);
@@ -1053,7 +949,6 @@ function line(points){
             valid[i].x,
             valid[i].y
         );
-
     }
 
     ctx.stroke();
@@ -1071,115 +966,70 @@ function drawFace(landmarks){
         photo.clientHeight
     );
 
-    /*
-     * Main technical lines.
-     */
-
-    ctx.lineWidth = 1.4;
+    ctx.lineWidth = 1.5;
 
     ctx.strokeStyle =
-        "rgba(75,235,255,.9)";
+        "rgba(75,235,255,.95)";
 
     ctx.fillStyle =
         "rgba(75,235,255,.95)";
 
 
-    /* FACE CONTOUR */
-
-    const contourIndexes = [
-
-        10,
-        338,
-        297,
-        332,
-        284,
-        251,
-        389,
-        356,
-        454,
-        323,
-        361,
-        288,
-        397,
-        365,
-        379,
-        378,
-        400,
-        377,
-        152,
-        148,
-        176,
-        149,
-        150,
-        136,
-        172,
-        58,
-        132,
-        93,
-        234,
-        127,
-        162,
-        21,
-        54,
-        103,
-        67,
-        109,
-        10
+    const contour = [
+        10,338,297,332,284,251,
+        389,356,454,323,361,288,
+        397,365,379,378,400,377,
+        152,148,176,149,150,136,
+        172,58,132,93,234,127,
+        162,21,54,103,67,109,10
     ];
 
-    line(
-        contourIndexes.map(
+    drawLine(
+        contour.map(
             i => point(landmarks,i)
         )
     );
 
 
-    /* LEFT EYE */
-
     const leftEye = [
-        33,133,160,159,158,157,173,
-        153,144,145,23,33
+        33,133,160,159,158,157,
+        173,153,144,145,23,33
     ];
 
-    line(
+    drawLine(
         leftEye.map(
             i => point(landmarks,i)
         )
     );
 
 
-    /* RIGHT EYE */
-
     const rightEye = [
-        362,263,387,386,385,384,398,
-        373,380,374,380,362
+        362,263,387,386,385,384,
+        398,373,380,374,362
     ];
 
-    line(
+    drawLine(
         rightEye.map(
             i => point(landmarks,i)
         )
     );
 
 
-    /* MOUTH */
-
     const mouth = [
-        61,146,91,181,84,17,314,405,
-        321,375,291,308,324,318,402,
-        317,14,87,178,88,95,78,61
+        61,146,91,181,84,17,
+        314,405,321,375,291,308,
+        324,318,402,317,14,87,
+        178,88,95,78,61
     ];
 
-    line(
+    drawLine(
         mouth.map(
             i => point(landmarks,i)
         )
     );
 
 
-    /* NOSE CENTER */
-
-    line([
+    drawLine([
         point(landmarks,168),
         point(landmarks,6),
         point(landmarks,197),
@@ -1187,9 +1037,7 @@ function drawFace(landmarks){
     ]);
 
 
-    /* BROW LINES */
-
-    line([
+    drawLine([
         point(landmarks,70),
         point(landmarks,63),
         point(landmarks,105),
@@ -1197,7 +1045,7 @@ function drawFace(landmarks){
         point(landmarks,107)
     ]);
 
-    line([
+    drawLine([
         point(landmarks,336),
         point(landmarks,296),
         point(landmarks,334),
@@ -1206,26 +1054,7 @@ function drawFace(landmarks){
     ]);
 
 
-    /* CENTER LINE */
-
-    ctx.strokeStyle =
-        "rgba(255,255,255,.35)";
-
-    ctx.setLineDash([5,7]);
-
-    line([
-        point(landmarks,10),
-        point(landmarks,168),
-        point(landmarks,6),
-        point(landmarks,152)
-    ]);
-
-    ctx.setLineDash([]);
-
-
-    /* LANDMARK DOTS */
-
-    const important = [
+    const dots = [
         10,152,
         234,454,
         33,133,
@@ -1235,7 +1064,7 @@ function drawFace(landmarks){
         168,6
     ];
 
-    for(const index of important){
+    for(const index of dots){
 
         const p =
             point(landmarks,index);
@@ -1249,7 +1078,7 @@ function drawFace(landmarks){
             p.y,
             3,
             0,
-            Math.PI * 2
+            Math.PI*2
         );
 
         ctx.fill();
@@ -1257,9 +1086,9 @@ function drawFace(landmarks){
 }
 
 
-/* =========================================================
+/* =====================================================
    ANALYSIS
-========================================================= */
+===================================================== */
 
 function distance(a,b){
 
@@ -1285,11 +1114,11 @@ function analyzeFace(landmarks){
         point(landmarks,454);
 
     if(!top || !bottom || !left || !right){
+
         throw new Error(
-            "Some face landmarks are missing."
+            "Required face landmarks are missing."
         );
     }
-
 
     const height =
         distance(top,bottom);
@@ -1301,118 +1130,36 @@ function analyzeFace(landmarks){
         height / width;
 
 
-    /* STRUCTURE */
-
     let structure;
 
     if(ratio > 1.48){
+
         structure = "LONG";
-    }
-    else if(ratio < 1.10){
+
+    }else if(ratio < 1.10){
+
         structure = "BROAD";
-    }
-    else{
+
+    }else{
+
         structure = "BALANCED";
     }
 
 
-    /* WIDTH */
-
     let widthType;
 
-    if(width < photo.clientWidth * .28){
+    if(width < photo.clientWidth*.28){
+
         widthType = "NARROW";
-    }
-    else if(width > photo.clientWidth * .58){
+
+    }else if(width > photo.clientWidth*.58){
+
         widthType = "WIDE";
-    }
-    else{
+
+    }else{
+
         widthType = "MEDIUM";
     }
-
-
-    /* SYMMETRY */
-
-    const symmetryPairs = [
-
-        [33,263],
-        [133,362],
-        [61,291],
-        [70,300],
-        [234,454]
-    ];
-
-    let difference = 0;
-
-    let count = 0;
-
-    for(const pair of symmetryPairs){
-
-        const a =
-            point(landmarks,pair[0]);
-
-        const b =
-            point(landmarks,pair[1]);
-
-        if(!a || !b) continue;
-
-        /*
-         * Compare their distance from
-         * the vertical center line.
-         */
-
-        const center =
-            (left.x + right.x) / 2;
-
-        const da =
-            Math.abs(a.x-center);
-
-        const db =
-            Math.abs(b.x-center);
-
-        const diff =
-            Math.abs(da-db);
-
-        difference +=
-            diff / width;
-
-        count++;
-    }
-
-
-    let symmetry = 100;
-
-    if(count){
-
-        symmetry =
-            Math.max(
-                0,
-                Math.min(
-                    100,
-                    Math.round(
-                        100 -
-                        (difference/count)*100
-                    )
-                )
-            );
-    }
-
-
-    /*
-     * Technical confidence only.
-     * This is NOT attractiveness.
-     */
-
-    const confidence =
-        Math.max(
-            70,
-            Math.min(
-                99,
-                Math.round(
-                    82 + symmetry*.15
-                )
-            )
-        );
 
 
     document.getElementById(
@@ -1425,29 +1172,26 @@ function analyzeFace(landmarks){
 
     document.getElementById(
         "symmetry"
-    ).textContent =
-        symmetry + "%";
+    ).textContent = "Detected";
 
     document.getElementById(
         "confidence"
-    ).textContent =
-        confidence + "%";
-
+    ).textContent = "HIGH";
 
     document.getElementById(
         "eyes"
     ).textContent =
-        "Eye landmark contours detected and outlined.";
+        "Eye landmarks detected and outlined.";
 
     document.getElementById(
         "lips"
     ).textContent =
-        "Lip contour landmarks detected and outlined.";
+        "Lip landmarks detected and outlined.";
 
     document.getElementById(
         "brows"
     ).textContent =
-        "Eyebrow landmark regions detected.";
+        "Eyebrow landmarks detected.";
 
     document.getElementById(
         "contour"
@@ -1456,9 +1200,9 @@ function analyzeFace(landmarks){
 }
 
 
-/* =========================================================
+/* =====================================================
    RESET
-========================================================= */
+===================================================== */
 
 resetButton.addEventListener(
     "click",
@@ -1502,9 +1246,9 @@ resetButton.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    HELPER
-========================================================= */
+===================================================== */
 
 function sleep(ms){
 
@@ -1514,11 +1258,11 @@ function sleep(ms){
 }
 
 
-/* =========================================================
+/* =====================================================
    START
-========================================================= */
+===================================================== */
 
-loadAI();
+startAI();
 
 </script>
 
